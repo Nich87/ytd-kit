@@ -3,7 +3,6 @@ import { json } from '@sveltejs/kit';
 
 async function getInfo(id: string): Promise<ytdl.videoInfo | null> {
 	try {
-		console.log(await ytdl.validateID(id));
 		return await ytdl.getInfo(id);
 	} catch (error) {
 		return null;
@@ -12,11 +11,17 @@ async function getInfo(id: string): Promise<ytdl.videoInfo | null> {
 
 export const GET = async ({ url }) => {
 	const _url = new URL(url).searchParams.get('video_url');
-	if (!_url) return;
+	if (!_url)
+		return json(
+			{
+				error: 'No videoId'
+			},
+			{ status: 404 }
+		);
 	if (!(await ytdl.validateURL(_url)))
 		return json(
 			{
-				error: 'URLが不正です。'
+				error: 'Invalid URL'
 			},
 			{ status: 400 }
 		);
@@ -26,11 +31,11 @@ export const GET = async ({ url }) => {
 	if (!(await ytdl.validateID(id)))
 		return json(
 			{
-				error: 'VideoIDが不正です。'
+				error: 'Invalid videoId'
 			},
 			{ status: 404 }
 		);
 	const videoInfo = await getInfo(id);
-	if (!videoInfo) return json({ error: 'videoinfo not found.' }, { status: 404 });
+	if (!videoInfo) return json({ error: 'videoInfo NotFound' }, { status: 404 });
 	return json(videoInfo);
 };
