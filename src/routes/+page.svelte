@@ -1,75 +1,35 @@
 <script lang="ts">
-	import { Input, Button, Tabs, TabItem, Listgroup, ListgroupItem } from 'flowbite-svelte';
-	import { VideoSolid, FileMusicSolid } from 'flowbite-svelte-icons';
+	import {
+		Input,
+		Button,
+		Tabs,
+		TabItem,
+		Listgroup,
+		ListgroupItem,
+		Modal,
+		Badge,
+		Blockquote,
+		P,
+		Hr
+	} from 'flowbite-svelte';
+	import {
+		VideoSolid,
+		FileMusicSolid,
+		ExclamationCircleOutline,
+		SearchOutline
+	} from 'flowbite-svelte-icons';
+	import type { VideoInfo, PlaylistInfo } from '$lib/types/index';
+	let popupModal = false;
+	//TODO: Playlistの正規表現の追加。動画単体だと、youtu.be/xxxx?si=xxxxのようなURLにも対応必要(特にモバイルは共有ボタンからだとほぼそれ)
 	const videoRegex =
 		/^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w-]+\?v=|embed\/|v\/)?)([\w-]+)(\S+)?$/gim;
 	let url: string;
-	let info: {
-		formats: [
-			{
-				hasAudio: boolean;
-				hasVideo: boolean;
-				url: string;
-				qualityLabel: string;
-				mimeType: string;
-			}
-		];
-		videoDetails: {
-			title: string;
-		};
-	};
-
-	let playlistInfo: {
-		title: string;
-		author: {
-			name: string;
-			url: string;
-			avatars: [
-				{
-					url: string;
-					width: number;
-					height: number;
-				}
-			];
-			bestAvatar: {
-				url: string;
-				width: number;
-				height: number;
-			};
-			channelID: string;
-		};
-		description: string;
-		itemCount: number;
-		videos: [
-			{
-				title: string;
-				videoId: string;
-				url: string;
-			}
-		];
-	};
-
-	function fetchType(format: (typeof info.formats)[0]) {
-		const has =
-			format.hasAudio && format.hasVideo
-				? 'Audio and Video'
-				: format.hasAudio
-				? 'Audio only'
-				: format.hasVideo
-				? 'Video only'
-				: 'No Audio or Video';
-		const mimeType = format.mimeType ? format.mimeType.split(';')[0] : '';
-
-		return `${has} (${mimeType})`;
-	}
-
-	function formatWithAudioVideo(data: typeof info) {
-		return data.formats.filter((f) => f.hasAudio && f.hasVideo)[0].url;
-	}
+	let videoInfo: VideoInfo;
+	let playlistInfo: PlaylistInfo;
 
 	async function searchVideoInfo() {
 		const video_url = videoRegex.test(url) ? url : null;
-		if (!video_url) return;
+		if (!video_url) return (popupModal = true);
 
 		const reponse = await fetch(`/ytdl/info?video_url=${video_url}`, {
 			method: 'GET',
@@ -79,7 +39,7 @@
 		});
 
 		if (reponse.status !== 200) return console.error(reponse.status, reponse);
-		info = await reponse.json();
+		videoInfo = await reponse.json();
 	}
 
 	async function searchPlaylistInfo() {
@@ -97,11 +57,11 @@
 		playlistInfo = await response.json();
 	}
 
-	async function downloadVideo(url: string, videoId: string) {
-		const response = await fetch(`/ytdl/download?v=${url}`, {
+	async function downloadVideo(videoId: string, downloadType: string) {
+		const response = await fetch(`/ytdl/download?v=${videoId}&type=${downloadType}`, {
 			method: 'GET',
 			headers: {
-				'content-type': 'video/mp4'
+				'content-type': downloadType === 'video' ? 'video/mp4' : 'audio/mpeg'
 			}
 		});
 		if (response.status !== 200) return console.error(response.status, response);
@@ -109,7 +69,7 @@
 		const _url = URL.createObjectURL(blob);
 		const a = document.createElement('a');
 		a.href = _url;
-		a.download = `${videoId}.mp4`;
+		a.download = `${videoId}.${downloadType === 'video' ? 'mp4' : 'mp3'}`;
 		document.body.appendChild(a);
 		a.click();
 		a.remove();
@@ -117,7 +77,7 @@
 </script>
 
 <div class="mx-auto flex flex-col justify-center items-center px-6 pt-8 pt:mt-0">
-	<div class="border-solid border-2 border-sky-500">
+	<div class="border-solid border-2 border-sky-500 w-1/2">
 		<Tabs>
 			<TabItem open title="from URL">
 				<Input
@@ -148,23 +108,46 @@
 	</div>
 </div>
 
-{#if info}
-	<div class="flex justify-center items-center flex-col">
-		<div>
-			<!-- svelte-ignore a11y-media-has-caption -->
-			<video src={formatWithAudioVideo(info)} autoplay controls />
-			<h1>{info.videoDetails.title}</h1>
+{#if videoInfo}
+	<div class="mx-auto flex flex-col justify-center items-center px-6 pt-8 pt:mt-0">
+		<div class="flex space-x-4">
+			<Button on:click={() => downloadVideo(videoInfo.videoId, 'video')}
+				><VideoSolid class="m-1" />
+				Download Video</Button
+			>
+			<Button on:click={() => downloadVideo(videoInfo.videoId, 'audio')}
+				><FileMusicSolid class="m-1" />Download Audio</Button
+			>
 		</div>
-		<div class="border-solid border-2 border-red-500">
-			<Listgroup>
-				{#each info.formats as format}
-					<ListgroupItem
-						><a href={format.url} rel="noreferer"
-							>{fetchType(format)}:{format.qualityLabel ? format.qualityLabel : ''}</a
-						></ListgroupItem
+		<Hr />
+		<div>
+			<iframe
+				title={videoInfo.title}
+				src={videoInfo.ifreme.iframeUrl}
+				width={videoInfo.ifreme.ifremeWidth}
+				height={videoInfo.ifreme.ifremeHeight}
+			></iframe>
+			<P size="2xl" weight="semibold">{videoInfo.title}</P>
+			<P size="xl" weight="semibold">Category:{videoInfo.category}</P>
+			<P size="xl" weight="semibold">👀{videoInfo.counts.viewCount}</P>
+			<P size="xl" weight="semibold">👍{videoInfo.counts.likeCount}</P>
+			<Hr />
+			<Blockquote border bg class="p-4 my-4">
+				<pre>{videoInfo.discription}</pre>
+			</Blockquote>
+			<Hr />
+			<div class="flex">
+				{#each videoInfo.keywords as keyword}
+					<Badge
+						border
+						color="red"
+						href="https://www.youtube.com/results?search_query={keyword}"
+						rel="noopener noreferrer"
+						target="_blank"><SearchOutline class="w-2.5 h-2.5 mr-1.5" />{keyword}</Badge
 					>
 				{/each}
-			</Listgroup>
+				<Hr />
+			</div>
 		</div>
 	</div>
 {/if}
@@ -187,10 +170,22 @@
 			{#each playlistInfo.videos as video}
 				<ListgroupItem class="flex">
 					<a href={video.url} class="m-1">{video.title}</a>
-					<VideoSolid class="m-1" on:click={() => downloadVideo(video.url, video.videoId)} />
-					<FileMusicSolid class="m-1" />
+					<VideoSolid class="m-1" on:click={() => downloadVideo(video.videoId, 'video')} />
+					<FileMusicSolid class="m-1" on:click={() => downloadVideo(video.videoId, 'audio')} />
 				</ListgroupItem>
 			{/each}
 		</Listgroup>
 	</div>
+{/if}
+
+{#if popupModal}
+	<Modal bind:open={popupModal} size="xs" autoclose outsideclose>
+		<div class="text-center">
+			<ExclamationCircleOutline class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" />
+			<h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+				不正なURLです。修正し再度お試しください。
+			</h3>
+			<Button color="red" class="mr-2">OK</Button>
+		</div>
+	</Modal>
 {/if}
