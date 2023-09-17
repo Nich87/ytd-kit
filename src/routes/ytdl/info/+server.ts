@@ -1,7 +1,9 @@
-import ytdl from 'ytdl-core';
+import { Innertube } from 'youtubei.js';
+const ytdl = await Innertube.create();
+import { formatSecondsToTime, formatCount } from '$lib/formatter';
 import { json } from '@sveltejs/kit';
 
-async function getInfo(id: string): Promise<ytdl.videoInfo | null> {
+async function getInfo(id: string) {
 	try {
 		return await ytdl.getInfo(id);
 	} catch (error) {
@@ -10,32 +12,37 @@ async function getInfo(id: string): Promise<ytdl.videoInfo | null> {
 }
 
 export const GET = async ({ url }) => {
-	const _url = new URL(url).searchParams.get('video_url');
-	if (!_url)
+	const _url = new URL(url).searchParams.get('video_url') as string;
+	const id = new URL(_url).searchParams.get('v');
+	if (!id)
 		return json(
 			{
 				error: 'No videoId'
 			},
 			{ status: 404 }
 		);
-	if (!(await ytdl.validateURL(_url)))
-		return json(
-			{
-				error: 'Invalid URL'
-			},
-			{ status: 400 }
-		);
 
-	const id = await ytdl.getURLVideoID(_url);
-
-	if (!(await ytdl.validateID(id)))
-		return json(
-			{
-				error: 'Invalid videoId'
-			},
-			{ status: 404 }
-		);
 	const videoInfo = await getInfo(id);
 	if (!videoInfo) return json({ error: 'videoInfo NotFound' }, { status: 404 });
-	return json(videoInfo);
+	const info = videoInfo.basic_info;
+	const basicInfo = {
+		videoId: info.id,
+		title: info.title,
+		discription: info.short_description ? info.short_description : 'No description',
+		duration: formatSecondsToTime(info.duration),
+		thumbnailUrl: info.thumbnail?.[0].url,
+		ifreme: {
+			iframeUrl: info.embed?.iframe_url,
+			ifremeHeight: info.embed?.height as number | undefined,
+			ifremeWidth: info.embed?.width as number | undefined
+		},
+		keywords: info.keywords ? info.keywords : [],
+		category: info.category ? info.category : 'UnCategorized',
+		counts: {
+			viewCount: info.view_count ? formatCount(info.view_count) : '0',
+			likeCount: info.like_count ? formatCount(info.like_count) : '0'
+		}
+	};
+
+	return json(basicInfo);
 };
