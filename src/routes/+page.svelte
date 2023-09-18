@@ -91,6 +91,7 @@
 				<div class="flex flex-col items-center">
 					<Input
 						type="text"
+						class="my-2"
 						bind:value={url}
 						placeholder="https://www.youtube.com/watch?v=xxxxxxx"
 						required
@@ -101,7 +102,7 @@
 
 			<TabItem title="from Search">
 				<div class="flex flex-col items-center">
-					<Input type="text" bind:value={url} placeholder="君に届け OP" required />
+					<Input type="text" class="my-2" bind:value={url} placeholder="Relax Music" required />
 					<Button on:click={searchVideoInfo}>Search</Button>
 				</div>
 			</TabItem>
@@ -110,6 +111,7 @@
 				<div class="flex flex-col items-center">
 					<Input
 						type="text"
+						class="my-2"
 						bind:value={url}
 						placeholder="https://youtube.com/playlist?list=xxxxxxxx"
 						required
