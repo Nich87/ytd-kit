@@ -18,18 +18,16 @@
 		ExclamationCircleOutline,
 		SearchOutline
 	} from 'flowbite-svelte-icons';
+	import { parseVideoUrl } from '$lib/parseURL';
 	import type { VideoInfo, PlaylistInfo } from '$lib/types/index';
 	let popupUrlErrorModal = false;
 	let popupFetchErrorModal = false;
-	//TODO: Playlistの正規表現の追加。動画単体だと、youtu.be/xxxx?si=xxxxのようなURLにも対応必要(特にモバイルは共有ボタンからだとほぼそれ)
-	const videoRegex =
-		/^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w-]+\?v=|embed\/|v\/)?)([\w-]+)(\S+)?$/gim;
 	let url: string;
 	let videoInfo: VideoInfo;
 	let playlistInfo: PlaylistInfo;
 
 	async function searchVideoInfo() {
-		const video_url = videoRegex.test(url) ? url : null;
+		const video_url = parseVideoUrl(url);
 		if (!video_url) return (popupUrlErrorModal = true);
 
 		const response = await fetch(`/ytdl/info?video_url=${video_url}`, {
@@ -95,7 +93,6 @@
 						type="text"
 						bind:value={url}
 						placeholder="https://www.youtube.com/watch?v=xxxxxxx"
-						pattern="^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$"
 						required
 					/>
 					<Button on:click={searchVideoInfo}>Search</Button>
