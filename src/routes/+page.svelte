@@ -30,7 +30,7 @@
 		const video_url = parseVideoUrl(url);
 		if (!video_url) return (popupUrlErrorModal = true);
 
-		const response = await fetch(`/ytdl/info?video_url=${video_url}`, {
+		const response = await fetch(`/ytdl/info?id=${video_url}`, {
 			method: 'GET',
 			headers: {
 				'content-type': 'application/json'

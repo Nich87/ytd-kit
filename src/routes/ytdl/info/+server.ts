@@ -2,7 +2,6 @@ import { Innertube } from 'youtubei.js';
 const ytdl = await Innertube.create();
 import { formatSecondsToTime, formatCount } from '$lib/formatter';
 import { json } from '@sveltejs/kit';
-import { parseVideoUrl } from '$lib/parseURL';
 
 async function getInfo(id: string) {
 	try {
@@ -13,8 +12,7 @@ async function getInfo(id: string) {
 }
 
 export const GET = async ({ url }) => {
-	const _url = new URL(url).searchParams.get('video_url') as string;
-	const id = parseVideoUrl(_url);
+	const id = new URL(url).searchParams.get('id');
 	if (!id)
 		return json(
 			{
