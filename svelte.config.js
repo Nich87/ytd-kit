@@ -10,6 +10,9 @@ const config = {
 	preprocess: preprocess(),
 	kit: {
 		adapter: getAdapter(),
+		alias: {
+			"components": "src/lib/components"
+		},
 		csp: { mode: 'auto' }
 	}
 };
