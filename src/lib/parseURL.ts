@@ -1,4 +1,5 @@
-export function parseVideoUrl(url: string): string | null {
+export function parseVideoUrl(url: string | undefined): string | null {
+	if(url === undefined) return null;
 	if (!url.startsWith('https://')) url = 'https://' + url;
 	try {
 		const parsed = new URL(url);
