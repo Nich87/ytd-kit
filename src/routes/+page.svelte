@@ -123,9 +123,9 @@
 		<div>
 			<iframe
 				title={videoInfo.title}
-				src={videoInfo.ifreme.iframeUrl}
-				width={videoInfo.ifreme.ifremeWidth}
-				height={videoInfo.ifreme.ifremeHeight}
+				src={videoInfo.iframe.iframeUrl}
+				width={videoInfo.iframe.iframeWidth}
+				height={videoInfo.iframe.iframeHeight}
 			></iframe>
 			<P size="2xl" weight="semibold">{videoInfo.title}</P>
 			<P size="xl" weight="semibold">Category:{videoInfo.category}</P>
@@ -133,7 +133,7 @@
 			<P size="xl" weight="semibold">👍{videoInfo.counts.likeCount}</P>
 			<Hr />
 			<Blockquote border bg class="p-4 my-4">
-				<pre>{videoInfo.discription}</pre>
+				<pre>{videoInfo.description}</pre>
 			</Blockquote>
 			<Hr />
 			<div class="flex">

@@ -28,13 +28,13 @@ export const GET = async ({ url }) => {
 	const basicInfo = {
 		videoId: info.id,
 		title: info.title,
-		discription: info.short_description ? info.short_description : 'No description',
+		description: info.short_description ? info.short_description : 'No description',
 		duration: formatSecondsToTime(info.duration),
 		thumbnailUrl: info.thumbnail?.[0].url,
-		ifreme: {
+		iframe: {
 			iframeUrl: info.embed?.iframe_url,
-			ifremeHeight: info.embed?.height as number | undefined,
-			ifremeWidth: info.embed?.width as number | undefined
+			iframeHeight: info.embed?.height as number | undefined,
+			iframeWidth: info.embed?.width as number | undefined
 		},
 		keywords: info.keywords ? info.keywords : [],
 		category: info.category ? info.category : 'UnCategorized',

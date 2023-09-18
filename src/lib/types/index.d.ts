@@ -1,13 +1,13 @@
 export type VideoInfo = {
 	videoId: string;
 	title: string;
-	discription: string;
+	description: string;
 	duration: string;
-	thumbnailUrl: string
-	ifreme: {
+	thumbnailUrl: string;
+	iframe: {
 		iframeUrl: string;
-		ifremeHeight: number;
-		ifremeWidth: number;
+		iframeHeight: number;
+		iframeWidth: number;
 	};
 	keywords: Array<string>;
 	category: string;
