@@ -1,25 +1,11 @@
 <script lang="ts">
-	import {
-		Input,
-		Button,
-		Tabs,
-		TabItem,
-		Listgroup,
-		ListgroupItem,
-		Modal,
-		Badge,
-		Blockquote,
-		P,
-		Hr
-	} from 'flowbite-svelte';
-	import {
-		VideoSolid,
-		FileMusicSolid,
-		ExclamationCircleOutline,
-		SearchOutline
-	} from 'flowbite-svelte-icons';
+	import { Button, Listgroup, ListgroupItem, Badge, Blockquote, P, Hr } from 'flowbite-svelte';
+	import { VideoSolid, FileMusicSolid, SearchOutline } from 'flowbite-svelte-icons';
 	import { parseVideoUrl } from '$lib/parseURL';
 	import type { VideoInfo, PlaylistInfo } from '$lib/types/index';
+	import URLErrorModal from 'components/Modals/URLError.svelte';
+	import FetchErrorModal from 'components/Modals/FetchError.svelte';
+	import MainTabs from 'components/Tabs/index.svelte';
 	let popupUrlErrorModal = false;
 	let popupFetchErrorModal = false;
 	let url: string;
@@ -86,40 +72,16 @@
 
 <div class="container mx-auto p-4">
 	<div class="max-w-3xl mx-auto border-solid border-2 border-sky-500 p-4">
-		<Tabs>
-			<TabItem open title="from URL">
-				<div class="flex flex-col items-center">
-					<Input
-						type="text"
-						class="my-2"
-						bind:value={url}
-						placeholder="https://www.youtube.com/watch?v=xxxxxxx"
-						required
-					/>
-					<Button on:click={searchVideoInfo}>Search</Button>
-				</div>
-			</TabItem>
-
-			<TabItem title="from Search">
-				<div class="flex flex-col items-center">
-					<Input type="text" class="my-2" bind:value={url} placeholder="Relax Music" required />
-					<Button on:click={searchVideoInfo}>Search</Button>
-				</div>
-			</TabItem>
-
-			<TabItem title="from Playlist">
-				<div class="flex flex-col items-center">
-					<Input
-						type="text"
-						class="my-2"
-						bind:value={url}
-						placeholder="https://youtube.com/playlist?list=xxxxxxxx"
-						required
-					/>
-					<Button on:click={searchPlaylistInfo}>Search</Button>
-				</div>
-			</TabItem>
-		</Tabs>
+		<MainTabs
+			on:Video={(e) => {
+				url = e.detail;
+				searchVideoInfo();
+			}}
+			on:Playlist={(e) => {
+				url = e.detail;
+				searchPlaylistInfo();
+			}}
+		/>
 	</div>
 
 	{#if videoInfo}
@@ -195,27 +157,6 @@
 		</div>
 	{/if}
 
-	{#if popupUrlErrorModal}
-		<Modal bind:open={popupUrlErrorModal} size="xs" autoclose outsideclose>
-			<div class="text-center">
-				<ExclamationCircleOutline class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" />
-				<h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-					不正なURLです。修正し再度お試しください。
-				</h3>
-				<Button color="red" class="mr-2">OK</Button>
-			</div>
-		</Modal>
-	{/if}
+	<FetchErrorModal {popupFetchErrorModal} />
+	<URLErrorModal {popupUrlErrorModal} />
 </div>
-
-{#if popupFetchErrorModal}
-	<Modal bind:open={popupFetchErrorModal} size="xs" autoclose outsideclose>
-		<div class="text-center">
-			<ExclamationCircleOutline class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" />
-			<h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-				動画情報を取得出来ませんでした。再度URLを確認しリトライしてください。
-			</h3>
-			<Button color="red" class="mr-2">OK</Button>
-		</div>
-	</Modal>
-{/if}
