@@ -30,7 +30,7 @@
 		const video_url = parseVideoUrl(url);
 		if (!video_url) return (popupUrlErrorModal = true);
 
-		const response = await fetch(`/ytdl/info?id=${video_url}`, {
+		const response = await fetch(`/api/ytdl/info?id=${video_url}`, {
 			method: 'GET',
 			headers: {
 				'content-type': 'application/json'
@@ -48,7 +48,7 @@
 		const video_url = url;
 		if (!video_url) return (popupUrlErrorModal = true);
 
-		const response = await fetch(`/ytpl/videos?video_url=${video_url}`, {
+		const response = await fetch(`/api/ytpl/videos?video_url=${video_url}`, {
 			method: 'GET',
 			headers: {
 				'content-type': 'application/json'
@@ -63,7 +63,7 @@
 	}
 
 	async function downloadVideo(videoId: string, downloadType: string) {
-		const response = await fetch(`/ytdl/download?v=${videoId}&type=${downloadType}`, {
+		const response = await fetch(`/api/ytdl/download?v=${videoId}&type=${downloadType}`, {
 			method: 'GET',
 			headers: {
 				'content-type': downloadType === 'video' ? 'video/mp4' : 'audio/mpeg'
