@@ -19,7 +19,8 @@
 		SearchOutline
 	} from 'flowbite-svelte-icons';
 	import type { VideoInfo, PlaylistInfo } from '$lib/types/index';
-	let popupModal = false;
+	let popupUrlErrorModal = false;
+	let popupFetchErrorModal = false;
 	//TODO: Playlistの正規表現の追加。動画単体だと、youtu.be/xxxx?si=xxxxのようなURLにも対応必要(特にモバイルは共有ボタンからだとほぼそれ)
 	const videoRegex =
 		/^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w-]+\?v=|embed\/|v\/)?)([\w-]+)(\S+)?$/gim;
@@ -29,22 +30,25 @@
 
 	async function searchVideoInfo() {
 		const video_url = videoRegex.test(url) ? url : null;
-		if (!video_url) return (popupModal = true);
+		if (!video_url) return (popupUrlErrorModal = true);
 
-		const reponse = await fetch(`/ytdl/info?video_url=${video_url}`, {
+		const response = await fetch(`/ytdl/info?video_url=${video_url}`, {
 			method: 'GET',
 			headers: {
 				'content-type': 'application/json'
 			}
 		});
 
-		if (reponse.status !== 200) return console.error(reponse.status, reponse);
-		videoInfo = await reponse.json();
+		if (response.status !== 200) {
+			popupFetchErrorModal = true;
+			return console.error(response.status, response);
+		}
+		videoInfo = await response.json();
 	}
 
 	async function searchPlaylistInfo() {
 		const video_url = url;
-		if (!video_url) return;
+		if (!video_url) return (popupUrlErrorModal = true);
 
 		const response = await fetch(`/ytpl/videos?video_url=${video_url}`, {
 			method: 'GET',
@@ -53,7 +57,10 @@
 			}
 		});
 
-		if (response.status !== 200) return console.error(response.status, response);
+		if (response.status !== 200) {
+			popupFetchErrorModal = true;
+			return console.error(response.status, response);
+		}
 		playlistInfo = await response.json();
 	}
 
@@ -64,7 +71,10 @@
 				'content-type': downloadType === 'video' ? 'video/mp4' : 'audio/mpeg'
 			}
 		});
-		if (response.status !== 200) return console.error(response.status, response);
+		if (response.status !== 200) {
+			popupFetchErrorModal = true;
+			return console.error(response.status, response);
+		}
 		const blob = await response.blob();
 		const _url = URL.createObjectURL(blob);
 		const a = document.createElement('a');
@@ -186,8 +196,8 @@
 		</div>
 	{/if}
 
-	{#if popupModal}
-		<Modal bind:open={popupModal} size="xs" autoclose outsideclose>
+	{#if popupUrlErrorModal}
+		<Modal bind:open={popupUrlErrorModal} size="xs" autoclose outsideclose>
 			<div class="text-center">
 				<ExclamationCircleOutline class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" />
 				<h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
@@ -198,3 +208,15 @@
 		</Modal>
 	{/if}
 </div>
+
+{#if popupFetchErrorModal}
+	<Modal bind:open={popupFetchErrorModal} size="xs" autoclose outsideclose>
+		<div class="text-center">
+			<ExclamationCircleOutline class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" />
+			<h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+				動画情報を取得出来ませんでした。再度URLを確認しリトライしてください。
+			</h3>
+			<Button color="red" class="mr-2">OK</Button>
+		</div>
+	</Modal>
+{/if}
