@@ -1,7 +1,8 @@
-import { Innertube } from 'youtubei.js';
-const ytdl = await Innertube.create();
 import { formatSecondsToTime, formatCount } from '$lib/formatter';
 import { json } from '@sveltejs/kit';
+import { Innertube } from 'youtubei.js';
+
+const ytdl = await Innertube.create();
 
 async function getInfo(id: string) {
 	try {

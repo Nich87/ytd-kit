@@ -1,5 +1,3 @@
-import { Innertube } from 'youtubei.js';
-const yt = await Innertube.create();
 // import ffmpeg from 'fluent-ffmpeg';
 // import ffmpegStatic from 'ffmpeg-static';
 // import ffprobeStatic from 'ffprobe-static';
@@ -8,6 +6,9 @@ const yt = await Innertube.create();
 // import { StreamInput } from 'fluent-ffmpeg-multistream';
 // import { Readable } from 'node:stream';
 import { json } from '@sveltejs/kit';
+import { Innertube } from 'youtubei.js';
+
+const yt = await Innertube.create();
 
 export const GET = async ({ url }) => {
 	const id = new URL(url).searchParams.get('v');
