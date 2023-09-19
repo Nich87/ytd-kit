@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Tabs, TabItem, Input, Button } from 'flowbite-svelte';
+	import { Tabs } from 'flowbite-svelte';
 	import VideoTab from './Tab/VideoTab.svelte';
 	import PlaylistTab from './Tab/PlaylistTab.svelte';
 	import SearchTab from './Tab/SearchTab.svelte';
@@ -13,10 +13,13 @@
 	function searchPlaylistInfo(e: CustomEvent) {
 		dispatch('Playlist', e.detail);
 	}
+	function searchVideos(e: CustomEvent) {
+		dispatch('Query', e.detail);
+	}
 </script>
 
 <Tabs>
 	<VideoTab {url} on:Video={searchVideoInfo} />
 	<PlaylistTab {url} on:Playlist={searchPlaylistInfo} />
-	<!-- <SearchTab {url} {searchVideoInfo} /> -->
+	<SearchTab {url} on:Query={searchVideos} />
 </Tabs>

@@ -81,6 +81,9 @@
 				url = e.detail;
 				searchPlaylistInfo();
 			}}
+			on:Query={(e) => {
+				url = e.detail;
+			}}
 		/>
 	</div>
 
