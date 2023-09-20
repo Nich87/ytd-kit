@@ -1,8 +1,18 @@
 <script lang="ts">
-	import { Button, Listgroup, ListgroupItem, Badge, Blockquote, P, Hr } from 'flowbite-svelte';
+	import {
+		Button,
+		Listgroup,
+		ListgroupItem,
+		Badge,
+		Blockquote,
+		P,
+		Hr,
+		Avatar,
+		Card
+	} from 'flowbite-svelte';
 	import { VideoSolid, FileMusicSolid, SearchOutline } from 'flowbite-svelte-icons';
 	import { parseVideoUrl } from '$lib/parseURL';
-	import type { VideoInfo, PlaylistInfo } from '$lib/types/index';
+	import type { VideoInfo, PlaylistInfo, SearchInfo } from '$lib/types/index';
 	import URLErrorModal from 'components/Modals/URLError.svelte';
 	import FetchErrorModal from 'components/Modals/FetchError.svelte';
 	import MainTabs from 'components/Tabs/index.svelte';
@@ -11,6 +21,7 @@
 	let url: string;
 	let videoInfo: VideoInfo;
 	let playlistInfo: PlaylistInfo;
+	let searchInfo: SearchInfo;
 
 	async function searchVideoInfo() {
 		const video_url = parseVideoUrl(url);
@@ -48,6 +59,25 @@
 		playlistInfo = await response.json();
 	}
 
+	async function searchQueryInfo() {
+		const query = url;
+		if (!query) return (popupUrlErrorModal = true);
+
+		const response = await fetch(`/api/ytdl/search?q=${query}`, {
+			method: 'GET',
+			headers: {
+				'content-type': 'application/json'
+			}
+		});
+
+		if (response.status !== 200) {
+			popupFetchErrorModal = true;
+			return console.error(response.status, response);
+		}
+
+		searchInfo = await response.json();
+	}
+
 	async function downloadVideo(videoId: string, downloadType: string) {
 		const response = await fetch(`/api/ytdl/download?v=${videoId}&type=${downloadType}`, {
 			method: 'GET',
@@ -83,6 +113,7 @@
 			}}
 			on:Query={(e) => {
 				url = e.detail;
+				searchQueryInfo();
 			}}
 		/>
 	</div>
@@ -157,6 +188,47 @@
 					{/each}
 				</Listgroup>
 			</div>
+		</div>
+	{/if}
+
+	{#if searchInfo}
+		<!-- TODO:add Badge -->
+		<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+			{#each searchInfo as entry}
+				{#if entry?.videoId}
+					<div class="flex flex-col h-full">
+						<Card img={entry.thumbnail.url} class="mb-4">
+							<h5
+								class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white line-clamp-1"
+							>
+								{entry.title}
+							</h5>
+							<div class="flex items-center space-x-4">
+								<Avatar src={entry.author.thumbnail.url} rounded />
+								<div class="space-y-1 font-medium dark:text-white">
+									<div class="line-clamp-1">{entry.author.name}</div>
+									<div class="text-sm text-gray-500 dark:text-gray-400">
+										Published at {entry.published ? entry.published : 'unknown'}
+									</div>
+								</div>
+							</div>
+							<div class="text-sm text-gray-500 dark:text-gray-400">
+								{entry.viewCount} | {entry.duration}
+							</div>
+						</Card>
+						<div class="flex justify-center space-x-4">
+							<Button on:click={() => downloadVideo(entry.videoId, 'video')}>
+								<VideoSolid class="m-1" />
+								Download Video
+							</Button>
+							<Button on:click={() => downloadVideo(entry.videoId, 'audio')}>
+								<FileMusicSolid class="m-1" />
+								Download Audio
+							</Button>
+						</div>
+					</div>
+				{/if}
+			{/each}
 		</div>
 	{/if}
 

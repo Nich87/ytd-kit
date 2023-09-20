@@ -1,4 +1,4 @@
-export type VideoInfo = {
+export interface VideoInfo {
 	videoId: string;
 	title: string;
 	description: string;
@@ -15,9 +15,9 @@ export type VideoInfo = {
 		viewCount: string;
 		likeCount: string;
 	};
-};
+}
 
-export type PlaylistInfo = {
+export interface PlaylistInfo {
 	title: string;
 	author: {
 		name: string;
@@ -45,4 +45,26 @@ export type PlaylistInfo = {
 			url: string;
 		}
 	];
+}
+
+type Thumbnail = {
+	url: string;
+	width: number;
+	height: number;
 };
+
+type Author = {
+	id: string;
+	name: string;
+	thumbnail: Thumbnail;
+};
+
+export interface SearchInfo {
+	videoId: string;
+	title: string;
+	thumbnail: Thumbnail;
+	author: Author;
+	published: string;
+	viewCount: string;
+	duration: string;
+}

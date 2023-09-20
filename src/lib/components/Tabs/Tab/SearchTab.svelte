@@ -4,13 +4,13 @@
 	import { createEventDispatcher } from 'svelte';
 	let dispatch = createEventDispatcher();
 	function Search() {
-		dispatch('Playlist', url);
+		dispatch('Query', url);
 	}
 </script>
 
-<TabItem title="from Search" disabled>
+<TabItem title="from Search">
 	<div class="flex flex-col items-center">
-		<Input type="text" class="my-2" bind:value={url} placeholder="Relax Music" required disabled/>
+		<Input type="text" class="my-2" bind:value={url} placeholder="Relax Music" required />
 		<Button on:click={Search}>Search</Button>
 	</div>
 </TabItem>
