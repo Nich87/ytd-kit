@@ -24,6 +24,9 @@ const config = {
 					800: '#CC4522',
 					900: '#A5371B'
 				}
+			},
+			backgroundColor: {
+				'black-opacity-80': 'rgba(0, 0, 0, 0.8)'
 			}
 		}
 	}
