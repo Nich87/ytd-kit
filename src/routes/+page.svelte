@@ -16,12 +16,14 @@
 	import URLErrorModal from 'components/Modals/URLError.svelte';
 	import FetchErrorModal from 'components/Modals/FetchError.svelte';
 	import MainTabs from 'components/Tabs/index.svelte';
+	import Spinner from 'components/Spinner.svelte';
 	let popupUrlErrorModal = false;
 	let popupFetchErrorModal = false;
 	let url: string;
 	let videoInfo: VideoInfo;
 	let playlistInfo: PlaylistInfo;
 	let searchInfo: SearchInfo;
+	let isLoading = false;
 
 	async function searchVideoInfo() {
 		const video_url = parseVideoUrl(url);
@@ -85,11 +87,14 @@
 				'content-type': downloadType === 'video' ? 'video/mp4' : 'audio/mpeg'
 			}
 		});
+		isLoading = true;
 		if (response.status !== 200) {
 			popupFetchErrorModal = true;
 			return console.error(response.status, response);
 		}
+
 		const blob = await response.blob();
+		isLoading = false;
 		const _url = URL.createObjectURL(blob);
 		const a = document.createElement('a');
 		a.href = _url;
@@ -117,6 +122,8 @@
 			}}
 		/>
 	</div>
+
+	<Spinner {isLoading} />
 
 	{#if videoInfo}
 		<div class="max-w-3xl mx-auto mt-8">
@@ -196,12 +203,12 @@
 		<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
 			{#each searchInfo as entry}
 				{#if entry?.videoId}
-					<div class="flex flex-col h-full">
+					<div class="flex flex-col items-center h-full">
 						<Card img={entry.thumbnail.url} class="mb-4">
 							<h5
 								class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white line-clamp-1"
 							>
-								{entry.title}
+								<a href="https://www.youtube.com/watch?v={entry.videoId}">{entry.title}</a>
 							</h5>
 							<div class="flex items-center space-x-4">
 								<Avatar src={entry.author.thumbnail.url} rounded />
