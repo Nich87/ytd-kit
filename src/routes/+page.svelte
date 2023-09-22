@@ -35,12 +35,13 @@
 				'content-type': 'application/json'
 			}
 		});
-
+		isLoading = true;
 		if (response.status !== 200) {
 			popupFetchErrorModal = true;
 			return console.error(response.status, response);
 		}
 		videoInfo = await response.json();
+		isLoading = false;
 	}
 
 	async function searchPlaylistInfo() {
@@ -53,12 +54,13 @@
 				'content-type': 'application/json'
 			}
 		});
-
+		isLoading = true;
 		if (response.status !== 200) {
 			popupFetchErrorModal = true;
 			return console.error(response.status, response);
 		}
 		playlistInfo = await response.json();
+		isLoading = false;
 	}
 
 	async function searchQueryInfo() {
@@ -71,13 +73,13 @@
 				'content-type': 'application/json'
 			}
 		});
-
+		isLoading = true;
 		if (response.status !== 200) {
 			popupFetchErrorModal = true;
 			return console.error(response.status, response);
 		}
-
 		searchInfo = await response.json();
+		isLoading = false;
 	}
 
 	async function downloadVideo(videoId: string, downloadType: string) {
