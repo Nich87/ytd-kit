@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { Input, Button, TabItem } from 'flowbite-svelte';
+	import { OrdoredListOutline, SearchOutline } from 'flowbite-svelte-icons';
 	export let url: string;
 	import { createEventDispatcher } from 'svelte';
 	let dispatch = createEventDispatcher();
@@ -8,7 +9,10 @@
 	}
 </script>
 
-<TabItem title="from Playlist">
+<TabItem>
+	<div slot="title" class="flex items-center gap-2">
+		<OrdoredListOutline size="xs" />from Playlist
+	</div>
 	<div class="flex flex-col items-center">
 		<Input
 			type="text"
@@ -17,6 +21,6 @@
 			placeholder="https://youtube.com/playlist?list=xxxxxxxx"
 			required
 		/>
-		<Button on:click={Search}>Search</Button>
+		<Button on:click={Search} class="gap-1"><SearchOutline size="sm" />Search</Button>
 	</div>
 </TabItem>
