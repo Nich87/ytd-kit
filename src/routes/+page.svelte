@@ -185,17 +185,19 @@
 					alt="CoverImage"
 				/>
 				<div>
-					<p>Playlist: {playlistInfo.title}</p>
-					<p>Author: {playlistInfo.author.name} | item: {playlistInfo.itemCount}</p>
+					<P>Playlist: {playlistInfo.title}</P>
+					<P>Author: {playlistInfo.author.name} | item: {playlistInfo.itemCount}</P>
 				</div>
 			</div>
 			<div class="border-solid border-2 border-red-500 mt-4">
 				<Listgroup>
 					{#each playlistInfo.videos as video}
-						<ListgroupItem class="flex items-center">
-							<a href={video.url} class="m-1">{video.title}</a>
+						<ListgroupItem class="flex items-center space-between">
+							<a href={video.url} class="m-1 flex-grow">{video.title}</a>
+							<div class="flex flex-end">
 							<VideoSolid class="m-1" on:click={() => downloadVideo(video.videoId, 'video')} />
 							<FileMusicSolid class="m-1" on:click={() => downloadVideo(video.videoId, 'audio')} />
+							</div>
 						</ListgroupItem>
 					{/each}
 				</Listgroup>
