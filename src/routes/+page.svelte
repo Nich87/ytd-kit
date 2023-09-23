@@ -8,18 +8,12 @@
 		P,
 		Hr,
 		Avatar,
-		Card,
-		DarkMode
+		Card
 	} from 'flowbite-svelte';
-	import {
-		VideoSolid,
-		FileMusicSolid,
-		SearchOutline,
-		SunSolid,
-		MoonSolid
-	} from 'flowbite-svelte-icons';
+	import { VideoSolid, FileMusicSolid, SearchOutline } from 'flowbite-svelte-icons';
 	import { parseVideoUrl } from '$lib/parseURL';
 	import type { VideoInfo, PlaylistInfo, SearchInfo } from '$lib/types/index';
+	import Header from 'components/Header.svelte';
 	import URLErrorModal from 'components/Modals/URLError.svelte';
 	import FetchErrorModal from 'components/Modals/FetchError.svelte';
 	import MainTabs from 'components/Tabs/index.svelte';
@@ -114,14 +108,7 @@
 	}
 </script>
 
-<DarkMode class="fixed right-0">
-	<svelte:fragment slot="lightIcon">
-		<SunSolid />
-	</svelte:fragment>
-	<svelte:fragment slot="darkIcon">
-		<MoonSolid />
-	</svelte:fragment>
-</DarkMode>
+<Header />
 
 <div class="container mx-auto p-4 space-y-8">
 	<div class="max-w-3xl mx-auto border-solid border-2 border-sky-500 p-4">
