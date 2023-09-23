@@ -15,6 +15,7 @@
 	import { parseVideoUrl } from '$lib/parseURL';
 	import type { VideoInfo, PlaylistInfo, SearchInfo } from '$lib/types/index';
 	import Header from 'components/Header.svelte';
+	import Footer from 'components/Footer.svelte';
 	import URLErrorModal from 'components/Modals/URLError.svelte';
 	import FetchErrorModal from 'components/Modals/FetchError.svelte';
 	import MainTabs from 'components/Tabs/index.svelte';
@@ -106,9 +107,8 @@
 	}
 </script>
 
-<Header />
+	<Header />
 
-<div class="container mx-auto p-4 space-y-8">
 	<div class="max-w-3xl mx-auto border-solid border-2 border-sky-500 p-4">
 		<MainTabs
 			on:Video={(e) => {
@@ -208,7 +208,7 @@
 
 	{#if searchInfo}
 		<!-- TODO:add Badge -->
-		<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+		<div class="grid grid-cols-1 py-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
 			{#each searchInfo as entry}
 				{#if entry?.videoId}
 					<div class="flex flex-col items-center h-full">
@@ -249,4 +249,5 @@
 
 	<FetchErrorModal />
 	<URLErrorModal />
-</div>
+
+	<Footer />
