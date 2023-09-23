@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { Modal, Button } from 'flowbite-svelte';
 	import { ExclamationCircleOutline } from 'flowbite-svelte-icons';
-	export let popupUrlErrorModal: boolean;
+	import { popupUrlErrorModal, togglepopupUrlErrorModal } from '$lib/store';
 </script>
 
 {#if popupUrlErrorModal}
 	<Modal
-		bind:open={popupUrlErrorModal}
-		on:close={() => (popupUrlErrorModal = false)}
+		bind:open={$popupUrlErrorModal}
+		on:close={() => togglepopupUrlErrorModal()}
 		size="xs"
 		autoclose
 		outsideclose

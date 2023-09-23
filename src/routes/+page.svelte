@@ -11,6 +11,7 @@
 		Card
 	} from 'flowbite-svelte';
 	import { VideoSolid, FileMusicSolid, SearchOutline } from 'flowbite-svelte-icons';
+	import { toggleLoadingState, togglepopupUrlErrorModal, togglepopupFetchModal } from '$lib/store';
 	import { parseVideoUrl } from '$lib/parseURL';
 	import type { VideoInfo, PlaylistInfo, SearchInfo } from '$lib/types/index';
 	import Header from 'components/Header.svelte';
@@ -18,17 +19,14 @@
 	import FetchErrorModal from 'components/Modals/FetchError.svelte';
 	import MainTabs from 'components/Tabs/index.svelte';
 	import Spinner from 'components/Spinner.svelte';
-	let popupUrlErrorModal = false;
-	let popupFetchErrorModal = false;
 	let url: string;
 	let videoInfo: VideoInfo;
 	let playlistInfo: PlaylistInfo;
 	let searchInfo: SearchInfo;
-	let isLoading = false;
 
 	async function searchVideoInfo() {
 		const video_url = parseVideoUrl(url);
-		if (!video_url) return (popupUrlErrorModal = true);
+		if (!video_url) return togglepopupUrlErrorModal();
 
 		const response = await fetch(`/api/ytdl/info?id=${video_url}`, {
 			method: 'GET',
@@ -36,18 +34,18 @@
 				'content-type': 'application/json'
 			}
 		});
-		isLoading = true;
+		toggleLoadingState();
 		if (response.status !== 200) {
-			popupFetchErrorModal = true;
+			togglepopupFetchModal();
 			return console.error(response.status, response);
 		}
 		videoInfo = await response.json();
-		isLoading = false;
+		toggleLoadingState();
 	}
 
 	async function searchPlaylistInfo() {
 		const video_url = url;
-		if (!video_url) return (popupUrlErrorModal = true);
+		if (!video_url) return togglepopupUrlErrorModal();
 
 		const response = await fetch(`/api/ytpl/videos?video_url=${video_url}`, {
 			method: 'GET',
@@ -55,18 +53,18 @@
 				'content-type': 'application/json'
 			}
 		});
-		isLoading = true;
+		toggleLoadingState();
 		if (response.status !== 200) {
-			popupFetchErrorModal = true;
+			togglepopupFetchModal();
 			return console.error(response.status, response);
 		}
 		playlistInfo = await response.json();
-		isLoading = false;
+		toggleLoadingState();
 	}
 
 	async function searchQueryInfo() {
 		const query = url;
-		if (!query) return (popupUrlErrorModal = true);
+		if (!query) return togglepopupUrlErrorModal();
 
 		const response = await fetch(`/api/ytdl/search?q=${query}`, {
 			method: 'GET',
@@ -74,13 +72,13 @@
 				'content-type': 'application/json'
 			}
 		});
-		isLoading = true;
+		toggleLoadingState();
 		if (response.status !== 200) {
-			popupFetchErrorModal = true;
+			togglepopupFetchModal();
 			return console.error(response.status, response);
 		}
 		searchInfo = await response.json();
-		isLoading = false;
+		toggleLoadingState();
 	}
 
 	async function downloadVideo(videoId: string, downloadType: string) {
@@ -90,14 +88,14 @@
 				'content-type': downloadType === 'video' ? 'video/mp4' : 'audio/mpeg'
 			}
 		});
-		isLoading = true;
+		toggleLoadingState();
 		if (response.status !== 200) {
-			popupFetchErrorModal = true;
+			togglepopupFetchModal();
 			return console.error(response.status, response);
 		}
 
 		const blob = await response.blob();
-		isLoading = false;
+		toggleLoadingState();
 		const _url = URL.createObjectURL(blob);
 		const a = document.createElement('a');
 		a.href = _url;
@@ -128,7 +126,7 @@
 		/>
 	</div>
 
-	<Spinner {isLoading} />
+	<Spinner />
 
 	{#if videoInfo}
 		<div class="max-w-3xl mx-auto mt-8">
@@ -195,8 +193,11 @@
 						<ListgroupItem class="flex items-center space-between">
 							<a href={video.url} class="m-1 flex-grow">{video.title}</a>
 							<div class="flex flex-end">
-							<VideoSolid class="m-1" on:click={() => downloadVideo(video.videoId, 'video')} />
-							<FileMusicSolid class="m-1" on:click={() => downloadVideo(video.videoId, 'audio')} />
+								<VideoSolid class="m-1" on:click={() => downloadVideo(video.videoId, 'video')} />
+								<FileMusicSolid
+									class="m-1"
+									on:click={() => downloadVideo(video.videoId, 'audio')}
+								/>
 							</div>
 						</ListgroupItem>
 					{/each}
@@ -246,6 +247,6 @@
 		</div>
 	{/if}
 
-	<FetchErrorModal {popupFetchErrorModal} />
-	<URLErrorModal {popupUrlErrorModal} />
+	<FetchErrorModal />
+	<URLErrorModal />
 </div>
