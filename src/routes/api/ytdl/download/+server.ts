@@ -1,10 +1,3 @@
-// import ffmpeg from 'fluent-ffmpeg';
-// import ffmpegStatic from 'ffmpeg-static';
-// import ffprobeStatic from 'ffprobe-static';
-// ffmpeg.setFfmpegPath(ffmpegStatic.path)
-// ffmpeg.setFfprobePath(ffprobeStatic.path)
-// import { StreamInput } from 'fluent-ffmpeg-multistream';
-// import { Readable } from 'node:stream';
 import { json } from '@sveltejs/kit';
 import { Innertube } from 'youtubei.js';
 
@@ -23,13 +16,6 @@ export const GET = async ({ url }) => {
 				quality: 'best',
 				format: 'mp4'
 			});
-			// const audioStream = await yt.download(id, {
-			// 	type: 'audio',
-			// 	quality: 'best',
-			// 	format: 'mp3'
-			// });
-
-			// const stream = (await createVideo(videoStream,audioStream,id)).run();
 
 			return new Response(videoStream, {
 				headers: {
@@ -63,26 +49,3 @@ export const GET = async ({ url }) => {
 		);
 	}
 };
-
-// async function createVideo(videoStream,audioStream,id) {
-// 			const stream = await ffmpeg()
-// 			.addInput(StreamInput(new Readable.fromWeb(videoStream)).url)
-// 			.addInput(StreamInput(new Readable.fromWeb(audioStream)).url)
-// 			.addOptions(['-map 0:v','-map 1:a','-c:v copy'])
-// 			.format('mp4')
-// 			.on('progress',(progress) => {
-// 				console.log(progress.percent+'%');
-// 			})
-// 			.on('end', () => {
-// 				console.log('passed');
-// 			}).on('error', (err) => {
-// 				console.error(err);
-// 				console.error(err.stack);
-// 			})
-// 			.output(`${id}`)
-// 			// .save(`${id}.mp4`);
-
-// 			return stream;
-// }
-
-// process.on('uncaughtException', console.log);

@@ -38,7 +38,6 @@
 		"@sveltejs/adapter-vercel": "3.0.3",
 		"@sveltejs/kit": "^1.24.0",
 		"@trivago/prettier-plugin-sort-imports": "^4.2.0",
-		"@types/fluent-ffmpeg": "^2.1.22",
 		"@typescript-eslint/eslint-plugin": "^6.5.0",
 		"@typescript-eslint/parser": "^6.5.0",
 		"autoprefixer": "^10.4.15",
@@ -47,7 +46,6 @@
 		"eslint-plugin-svelte": "^2.33.0",
 		"flowbite-svelte": "^0.44.4",
 		"flowbite-svelte-icons": "^0.4.3",
-		"fluent-ffmpeg-multistream": "^1.0.0",
 		"postcss": "^8.4.29",
 		"postcss-load-config": "^4.0.1",
 		"prettier": "^3.0.3",
@@ -64,9 +62,6 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"ffmpeg-static": "^5.2.0",
-		"ffprobe-static": "^3.1.0",
-		"fluent-ffmpeg": "^2.1.2",
 		"youtubei.js": "^6.4.0",
 		"ytpl": "^2.3.0"
 	}
