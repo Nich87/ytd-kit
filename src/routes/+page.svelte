@@ -11,7 +11,7 @@
 		Card
 	} from 'flowbite-svelte';
 	import { VideoSolid, FileMusicSolid, SearchOutline } from 'flowbite-svelte-icons';
-	import { toggleLoadingState, togglepopupUrlErrorModal, togglepopupFetchModal } from '$lib/store';
+	import { toggleLoadingState, togglepopupUrlErrorModal, togglepopupFetchModal,togglepopupRegionErrorModal } from '$lib/store';
 	import { parseVideoUrl } from '$lib/parseURL';
 	import type { VideoInfo, PlaylistInfo, SearchInfo } from '$lib/types/index';
 	import Header from 'components/Header.svelte';
@@ -91,7 +91,8 @@
 		});
 		toggleLoadingState();
 		if (response.status !== 200) {
-			togglepopupFetchModal();
+			let json = await response.json();
+			json.errorobj.info.error_type === "UNPLAYABLE" ? togglepopupRegionErrorModal() : togglepopupFetchModal();
 			return console.error(response.status, response);
 		}
 
