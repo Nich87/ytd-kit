@@ -3,6 +3,7 @@
 	import { SearchOutline } from 'flowbite-svelte-icons';
 	export let url: string;
 	let suggestions: string[] = [];
+	let isDropdownOpen = false;
 	import { createEventDispatcher } from 'svelte';
 	let dispatch = createEventDispatcher();
 	function Search() {
@@ -41,12 +42,13 @@
 				list="suggestions"
 				required
 			/>
-			<Dropdown>
+			<Dropdown bind:open={isDropdownOpen}>
 				{#if suggestions.length}
 					{#each suggestions as entry}
 						<DropdownItem
 							on:click={(e) => {
 								url = e.originalTarget.innerText;
+								isDropdownOpen = false;
 							}}>{entry}</DropdownItem
 						>
 					{/each}
