@@ -47,7 +47,7 @@
 					{#each suggestions as entry}
 						<DropdownItem
 							on:click={(e) => {
-								url = e.originalTarget.innerText;
+								url = e.target.innerText;
 								isDropdownOpen = false;
 							}}>{entry}</DropdownItem
 						>
