@@ -93,6 +93,7 @@
 		if (response.status !== 200) {
 			let json = await response.json();
 			json.errorobj.info.error_type === "UNPLAYABLE" ? togglepopupRegionErrorModal() : togglepopupFetchModal();
+			toggleLoadingState();
 			return console.error(response.status, response);
 		}
 
