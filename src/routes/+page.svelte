@@ -16,6 +16,7 @@
 	import type { VideoInfo, PlaylistInfo, SearchInfo } from '$lib/types/index';
 	import Header from 'components/Header.svelte';
 	import Footer from 'components/Footer.svelte';
+	import RegionError from 'components/Modals/RegionError.svelte';
 	import URLErrorModal from 'components/Modals/URLError.svelte';
 	import FetchErrorModal from 'components/Modals/FetchError.svelte';
 	import MainTabs from 'components/Tabs/index.svelte';
@@ -92,6 +93,8 @@
 		toggleLoadingState();
 		if (response.status !== 200) {
 			let json = await response.json();
+			console.log(json);
+			console.log(json.errorobj.info.error_type)
 			json.errorobj.info.error_type === "UNPLAYABLE" ? togglepopupRegionErrorModal() : togglepopupFetchModal();
 			toggleLoadingState();
 			return console.error(response.status, response);
@@ -246,6 +249,7 @@
 	</div>
 {/if}
 
+<RegionError />
 <FetchErrorModal />
 <URLErrorModal />
 
