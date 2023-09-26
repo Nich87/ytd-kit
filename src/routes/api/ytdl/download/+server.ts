@@ -54,7 +54,8 @@ export const GET = async ({ url }) => {
 		console.error(error);
 		return json(
 			{
-				error: 'Internal Server Error'
+				error: 'Internal Server Error',
+				errorobj: error
 			},
 			{
 				status: 500
