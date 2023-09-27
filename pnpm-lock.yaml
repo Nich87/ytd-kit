@@ -8,9 +8,6 @@ dependencies:
   youtubei.js:
     specifier: ^6.4.0
     version: 6.4.0
-  ytpl:
-    specifier: ^2.3.0
-    version: 2.3.0
 
 devDependencies:
   '@playwright/test':
@@ -2255,11 +2252,6 @@ packages:
     hasBin: true
     dev: true
 
-  /miniget@4.2.3:
-    resolution: {integrity: sha512-SjbDPDICJ1zT+ZvQwK0hUcRY4wxlhhNpHL9nJOB2MEAXRGagTljsO8MEDzQMTFf0Q8g4QNi8P9lEm/g7e+qgzA==}
-    engines: {node: '>=12'}
-    dev: false
-
   /minimatch@3.1.2:
     resolution: {integrity: sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==}
     dependencies:
@@ -3553,11 +3545,4 @@ packages:
       jintr: 1.1.0
       tslib: 2.6.2
       undici: 5.23.0
-    dev: false
-
-  /ytpl@2.3.0:
-    resolution: {integrity: sha512-Cfw2rxq3PFK6qgWr2Z8gsRefVahEzbn9XEuiJldqdXHE6GhO7kTfEvbZKdfXing1SmgW635uJ/UL2g8r0fvu2Q==}
-    engines: {node: '>=8'}
-    dependencies:
-      miniget: 4.2.3
     dev: false

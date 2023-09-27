@@ -11,7 +11,12 @@
 		Card
 	} from 'flowbite-svelte';
 	import { VideoSolid, FileMusicSolid, SearchOutline } from 'flowbite-svelte-icons';
-	import { toggleLoadingState, togglepopupUrlErrorModal, togglepopupFetchModal,togglepopupRegionErrorModal } from '$lib/store';
+	import {
+		toggleLoadingState,
+		togglepopupUrlErrorModal,
+		togglepopupFetchModal,
+		togglepopupRegionErrorModal
+	} from '$lib/store';
 	import { parseVideoUrl } from '$lib/parseURL';
 	import type { VideoInfo, PlaylistInfo, SearchInfo } from '$lib/types/index';
 	import Header from 'components/Header.svelte';
@@ -27,10 +32,10 @@
 	let searchInfo: SearchInfo;
 
 	async function searchVideoInfo() {
-		const video_url = parseVideoUrl(url);
-		if (!video_url) return togglepopupUrlErrorModal();
+		const videoUrl = parseVideoUrl(url);
+		if (!videoUrl) return togglepopupUrlErrorModal();
 
-		const response = await fetch(`/api/ytdl/info?id=${video_url}`, {
+		const response = await fetch(`/api/ytdl/info?id=${videoUrl}`, {
 			method: 'GET',
 			headers: {
 				'content-type': 'application/json'
@@ -46,10 +51,10 @@
 	}
 
 	async function searchPlaylistInfo() {
-		const video_url = url;
-		if (!video_url) return togglepopupUrlErrorModal();
+		const playlistUrl = url;
+		if (!playlistUrl) return togglepopupUrlErrorModal();
 
-		const response = await fetch(`/api/ytpl/videos?video_url=${video_url}`, {
+		const response = await fetch(`/api/ytdl/playlist?url=${playlistUrl}`, {
 			method: 'GET',
 			headers: {
 				'content-type': 'application/json'
@@ -94,8 +99,10 @@
 		if (response.status !== 200) {
 			let json = await response.json();
 			console.log(json);
-			console.log(json.errorobj.info.error_type)
-			json.errorobj.info.error_type === "UNPLAYABLE" ? togglepopupRegionErrorModal() : togglepopupFetchModal();
+			console.log(json.errorobj.info.error_type);
+			json.errorobj.info.error_type === 'UNPLAYABLE'
+				? togglepopupRegionErrorModal()
+				: togglepopupFetchModal();
 			toggleLoadingState();
 			return console.error(response.status, response);
 		}
@@ -181,15 +188,10 @@
 {#if playlistInfo}
 	<div class="max-w-3xl mx-auto mt-8">
 		<div class="flex flex-col items-center">
-			<img
-				src={playlistInfo.author.bestAvatar.url}
-				width={playlistInfo.author.bestAvatar.width}
-				height={playlistInfo.author.bestAvatar.height}
-				alt="CoverImage"
-			/>
+			<img src={playlistInfo.author.url} alt="CoverImage" />
 			<div>
 				<P>Playlist: {playlistInfo.title}</P>
-				<P>Author: {playlistInfo.author.name} | item: {playlistInfo.itemCount}</P>
+				<P>Author: {playlistInfo.author.name} | itemCount: {playlistInfo.itemCount}</P>
 			</div>
 		</div>
 		<div class="border-solid border-2 border-red-500 mt-4">

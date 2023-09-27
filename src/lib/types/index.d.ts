@@ -17,34 +17,24 @@ export interface VideoInfo {
 	};
 }
 
+interface AuthorInfo {
+	name: string;
+	url: string;
+	badges: string[];
+}
+
+interface VideoInfo {
+	title: string;
+	videoId: string;
+	url: string;
+}
+
 export interface PlaylistInfo {
 	title: string;
-	author: {
-		name: string;
-		url: string;
-		avatars: [
-			{
-				url: string;
-				width: number;
-				height: number;
-			}
-		];
-		bestAvatar: {
-			url: string;
-			width: number;
-			height: number;
-		};
-		channelID: string;
-	};
+	author: AuthorInfo;
 	description: string;
 	itemCount: number;
-	videos: [
-		{
-			title: string;
-			videoId: string;
-			url: string;
-		}
-	];
+	videos: VideoInfo[];
 }
 
 type Thumbnail = {

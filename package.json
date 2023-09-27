@@ -62,7 +62,6 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"youtubei.js": "^6.4.0",
-		"ytpl": "^2.3.0"
+		"youtubei.js": "^6.4.0"
 	}
 }
