@@ -12,7 +12,7 @@ async function getInfo(id: string) {
 	}
 }
 
-export const GET = async ({ url }) => {
+export const GET = async ({ url }: { url: URL }) => {
 	const id = new URL(url).searchParams.get('id');
 	if (!id)
 		return json(

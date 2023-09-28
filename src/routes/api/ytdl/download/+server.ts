@@ -1,9 +1,8 @@
 import { json } from '@sveltejs/kit';
 import { Innertube } from 'youtubei.js';
-
 const yt = await Innertube.create();
 
-export const GET = async ({ url }) => {
+export const GET = async ({ url }: { url: URL }) => {
 	const id = new URL(url).searchParams.get('v');
 	const type = new URL(url).searchParams.get('type');
 	if (!id) throw new Error('Invalid Id');

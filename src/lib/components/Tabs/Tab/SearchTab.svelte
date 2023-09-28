@@ -21,9 +21,7 @@
 			}
 		});
 
-		if (response.status !== 200) {
-			return console.error(response.status, response);
-		}
+		if (response.status !== 200) return;
 
 		suggestions = await response.json();
 	}

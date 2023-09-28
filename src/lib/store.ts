@@ -19,4 +19,4 @@ export const togglepopupUrlErrorModal = () => {
 
 export const togglepopupRegionErrorModal = () => {
 	popupRegionErrorModal.update((value) => !value);
-}
+};
