@@ -7,7 +7,7 @@
 {#if popupUrlErrorModal}
 	<Modal
 		bind:open={$popupUrlErrorModal}
-		on:close={() => togglepopupUrlErrorModal()}
+		on:close={() => togglepopupUrlErrorModal}
 		size="xs"
 		autoclose
 		outsideclose

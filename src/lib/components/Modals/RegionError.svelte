@@ -7,7 +7,7 @@
 {#if popupRegionErrorModal}
 	<Modal
 		bind:open={$popupRegionErrorModal}
-		on:close={() => togglepopupRegionErrorModal()}
+		on:close={() => togglepopupRegionErrorModal}
 		size="xs"
 		autoclose
 		outsideclose

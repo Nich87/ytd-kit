@@ -1,11 +1,17 @@
 <script lang="ts">
 	import { Modal, Button } from 'flowbite-svelte';
 	import { ExclamationCircleOutline } from 'flowbite-svelte-icons';
-	import { popupFetchErrorModal } from '$lib/store';
+	import { popupFetchErrorModal, togglepopupFetchModal } from '$lib/store';
 </script>
 
 {#if popupFetchErrorModal}
-	<Modal bind:open={$popupFetchErrorModal} size="xs" autoclose outsideclose>
+	<Modal
+		bind:open={$popupFetchErrorModal}
+		on:close={() => togglepopupFetchModal}
+		size="xs"
+		autoclose
+		outsideclose
+	>
 		<div class="text-center">
 			<ExclamationCircleOutline class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" />
 			<h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
