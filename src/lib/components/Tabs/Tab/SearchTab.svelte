@@ -36,6 +36,7 @@
 				class="my-2"
 				bind:value={url}
 				on:input={() => searchSuggestions()}
+				on:change={() => searchSuggestions()}
 				placeholder="Relax Music"
 				list="suggestions"
 				required
