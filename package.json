@@ -39,7 +39,7 @@
 		"@sveltejs/kit": "^1.24.0",
 		"@trivago/prettier-plugin-sort-imports": "^4.2.0",
 		"@typescript-eslint/eslint-plugin": "^6.7.3",
-		"@typescript-eslint/parser": "^6.5.0",
+		"@typescript-eslint/parser": "^6.7.3",
 		"autoprefixer": "^10.4.15",
 		"eslint": "^8.48.0",
 		"eslint-config-prettier": "^9.0.0",
