@@ -20,7 +20,7 @@ export const GET = async ({ url }: { url: URL }) => {
 				headers: {
 					'Content-Type': 'video/mp4'
 				}
-			})
+			});
 		}
 
 		if (type === 'audio') {
