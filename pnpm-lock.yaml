@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   youtubei.js:
-    specifier: ^6.4.0
-    version: 6.4.0
+    specifier: ^6.4.1
+    version: 6.4.1
 
 devDependencies:
   '@playwright/test':
@@ -3539,8 +3539,8 @@ packages:
     engines: {node: '>=12.20'}
     dev: true
 
-  /youtubei.js@6.4.0:
-    resolution: {integrity: sha512-c3Hj+9JmMchVWusVOubHDNrvKybzai1vWzZsVIZ9oxt74W0zaP78S0pPW21i/RnVBx29rAA2+ojs56b/REP/1A==}
+  /youtubei.js@6.4.1:
+    resolution: {integrity: sha512-GVrDkJmF5t378SeDiZPEAoegZ1pxjbEzNyXTuiQnL5LzPSZKA3IoJwL8lBNlRMKyksI5RbieoHzULsEt4AIbFw==}
     dependencies:
       jintr: 1.1.0
       tslib: 2.6.2
