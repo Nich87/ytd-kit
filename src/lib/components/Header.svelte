@@ -3,7 +3,7 @@
 	import { SunSolid, MoonSolid } from 'flowbite-svelte-icons';
 </script>
 
-<header class="flex justify-end">
+<header class="flex justify-end p-4">
 	<DarkMode>
 		<svelte:fragment slot="lightIcon">
 			<SunSolid />
