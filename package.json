@@ -62,6 +62,6 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"youtubei.js": "^6.4.1"
+		"youtubei.js": "^7.0.0"
 	}
 }
