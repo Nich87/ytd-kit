@@ -59,8 +59,8 @@ devDependencies:
     specifier: ^0.44.19
     version: 0.44.19(svelte@4.2.2)
   flowbite-svelte-icons:
-    specifier: ^0.4.4
-    version: 0.4.4(svelte@4.2.2)(tailwind-merge@1.14.0)(tailwindcss@3.3.5)
+    specifier: ^0.4.5
+    version: 0.4.5(svelte@4.2.2)(tailwind-merge@2.0.0)(tailwindcss@3.3.5)
   postcss:
     specifier: ^8.4.31
     version: 8.4.31
@@ -1813,15 +1813,15 @@ packages:
     resolution: {integrity: sha512-5nqDSxl8nn5BSNxyR3n4I6eDmbolI6WT+QqR547RwxQapgjQBmtktdP+HTBb/a/zLsbzERTONyUB5pefh5TtjQ==}
     dev: true
 
-  /flowbite-svelte-icons@0.4.4(svelte@4.2.2)(tailwind-merge@1.14.0)(tailwindcss@3.3.5):
-    resolution: {integrity: sha512-fOZri6HYYyo13olXQzvoid19hlYR/HjzQobpzBPkj8QseCJ9R1uWR7bNlhPl5vFCElqcfm3UooYiwT4rKKiqzQ==}
+  /flowbite-svelte-icons@0.4.5(svelte@4.2.2)(tailwind-merge@2.0.0)(tailwindcss@3.3.5):
+    resolution: {integrity: sha512-IBudEfw9B4UE2gCRMhbRnyE8p7qq7DDMauy0mPVIShzjaN3yVk2AmAHia1JRe9jUC98Wn7xNk/IdJlXeQj19Iw==}
     peerDependencies:
       svelte: ^3.54.0 || ^4.0.0
-      tailwind-merge: ^1.13.2
+      tailwind-merge: ^2.0.0
       tailwindcss: ^3.3.2
     dependencies:
       svelte: 4.2.2
-      tailwind-merge: 1.14.0
+      tailwind-merge: 2.0.0
       tailwindcss: 3.3.5
     dev: true
 
@@ -3204,10 +3204,6 @@ packages:
     engines: {node: '>= 0.8.0'}
     dependencies:
       svg.js: 2.7.1
-    dev: true
-
-  /tailwind-merge@1.14.0:
-    resolution: {integrity: sha512-3mFKyCo/MBcgyOTlrY8T7odzZFx+w+qKSMAmdFzRvqBfLlSigU6TZnlFHK0lkMwj9Bj8OYU+9yW9lmGuS0QEnQ==}
     dev: true
 
   /tailwind-merge@2.0.0:
