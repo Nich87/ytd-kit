@@ -1,19 +1,15 @@
 <script lang="ts">
-	import {
-		Player,
-		Youtube,
-	} from '@vime/svelte';
+	import { Player, Youtube } from '@vime/svelte';
 	import { onMount } from 'svelte';
-    let id: string | null = "" ;
-    onMount(() => {
-        id = new URL(window.location.href).searchParams.get('q');
-    })
+	let id: string | null = '';
+	onMount(() => {
+		id = new URL(window.location.href).searchParams.get('v');
+	});
 </script>
-
 
 <div id="container">
 	<Player controls>
-        <Youtube videoId={id} />
+		<Youtube videoId={id} />
 	</Player>
 </div>
 

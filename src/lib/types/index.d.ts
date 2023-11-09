@@ -23,7 +23,6 @@ interface AuthorInfo {
 	badges: string[];
 }
 
-
 type Thumbnail = {
 	url: string;
 	width: number;
@@ -46,37 +45,36 @@ export interface SearchInfo {
 	duration: string;
 }
 
-
 export interface Playlist {
-	info:{
-    title: string | undefined;
-    author: {
-      name: string;
-      thumbnails: { url: string }[];
-      badges: string[];
-    };
-    description?: string;
-    total_items: string;
+	info: {
+		title: string | undefined;
+		author: {
+			name: string;
+			thumbnails: { url: string }[];
+			badges: string[];
+		};
+		description?: string;
+		total_items: string;
 	};
-  videos: {
-    title: { runs?: { text: string }[] };
-    id:string;
-	url:string;
-  }[];
+	videos: {
+		title: { runs?: { text: string }[] };
+		id: string;
+		url: string;
+	}[];
 }
 
 export interface PlaylistInfo {
 	title: string | undefined;
-    author: {
-      name: string;
-      url: string;
-      badges: string[];
-    };
+	author: {
+		name: string;
+		url: string;
+		badges: string[];
+	};
 	description?: string;
-    itemCount: string;
+	itemCount: string;
 	videos: {
-    title: { runs?: { text: string }[] };
-    videoId:string;
-	url:string;
-  }[];
+		title: { runs?: { text: string }[] };
+		videoId: string;
+		url: string;
+	}[];
 }

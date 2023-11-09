@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Spinner } from 'flowbite-svelte';
 	import { isLoading } from '$lib/store';
-	let size = "16";
+	let size = '16';
 </script>
 
 {#if $isLoading}

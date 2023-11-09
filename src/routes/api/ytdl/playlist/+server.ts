@@ -23,7 +23,7 @@ export const GET = async ({ url }: { url: URL }) => {
 			{ status: 404 }
 		);
 
-	const playlistInfo = await getInfo(playlistId) as unknown as Playlist;
+	const playlistInfo = (await getInfo(playlistId)) as unknown as Playlist;
 	if (!playlistInfo) return json({ error: 'Playlist NotFound' }, { status: 404 });
 
 	const formattedPlaylistInfo = {
