@@ -40,6 +40,8 @@
 		"@trivago/prettier-plugin-sort-imports": "^4.2.1",
 		"@typescript-eslint/eslint-plugin": "^6.10.0",
 		"@typescript-eslint/parser": "^6.10.0",
+		"@vime/core": "^5.4.1",
+		"@vime/svelte": "^5.4.1",
 		"autoprefixer": "^10.4.16",
 		"eslint": "^8.53.0",
 		"eslint-config-prettier": "^9.0.0",
@@ -58,12 +60,8 @@
 		"tslib": "^2.6.2",
 		"typescript": "^5.2.2",
 		"vite": "^4.5.0",
-		"vitest": "^0.34.6"
-	},
-	"type": "module",
-	"dependencies": {
-		"@vime/core": "^5.4.1",
-		"@vime/svelte": "^5.4.1",
+		"vitest": "^0.34.6",
 		"youtubei.js": "^7.0.0"
-	}
+	},
+	"type": "module"
 }
