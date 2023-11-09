@@ -62,6 +62,8 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@vime/core": "^5.4.1",
+		"@vime/svelte": "^5.4.1",
 		"youtubei.js": "^7.0.0"
 	}
 }
