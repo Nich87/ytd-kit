@@ -13,11 +13,12 @@
 	};
 </script>
 
-<div id="container">
-	<Embed
-		embedSrc={`https://www.youtube-nocookie.com/embed/${id}`}
-		origin="https://www.youtube-nocookie.com"
-		mediaTitle="Agent 327: Operation Barbershop"
-		{params}
-	/>
-</div>
+{#if id !== null}
+	<div id="container">
+		<Embed
+			embedSrc={`https://www.youtube-nocookie.com/embed/${id}`}
+			origin="https://www.youtube-nocookie.com"
+			{params}
+		/>
+	</div>
+{/if}
