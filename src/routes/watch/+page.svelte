@@ -9,7 +9,7 @@
 
 {#if id !== null}
 	<embed
-		src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&muted=1&controls=0&modestbranding=0&loop=1`}
+		src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&muted=1&controls=0&modestbranding=0&loop=1&playsinline=1`}
 		style="display:block;width:100%;height: 100vh;"
 	/>
 {/if}
