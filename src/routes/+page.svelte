@@ -216,7 +216,12 @@
 		{#each searchInfo as entry}
 			{#if entry?.videoId}
 				<div class="flex flex-col items-center h-full">
-					<Card img={entry.thumbnail.url} class="mb-4">
+					<Card
+						img={entry.thumbnail.url}
+						class="mb-4"
+						on:click={() => window.open(`/watch?v=${entry?.videoId}`, '_blank')}
+						style="cursor:pointer"
+					>
 						<h5
 							class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white line-clamp-1"
 						>
