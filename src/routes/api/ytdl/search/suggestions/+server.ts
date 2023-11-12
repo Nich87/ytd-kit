@@ -1,9 +1,10 @@
 import { json } from '@sveltejs/kit';
 import { Innertube } from 'youtubei.js';
+import type { RequestHandler } from '../$types';
 
 const yt = await Innertube.create();
 
-export const GET = async ({ url }: { url: URL }) => {
+export const GET = (async ({ url }: { url: URL }) => {
 	const query = new URL(url).searchParams.get('q');
 
 	if (!query) throw new Error('No query');
@@ -37,4 +38,4 @@ export const GET = async ({ url }: { url: URL }) => {
 			}
 		);
 	}
-};
+}) satisfies RequestHandler;

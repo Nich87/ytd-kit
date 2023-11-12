@@ -1,6 +1,7 @@
 import { json } from '@sveltejs/kit';
 import { Innertube } from 'youtubei.js';
 import type { Playlist } from '$lib/types';
+import type { RequestHandler } from '../$types';
 
 const yt = await Innertube.create();
 
@@ -12,7 +13,7 @@ async function getInfo(id: string) {
 	}
 }
 
-export const GET = async ({ url }: { url: URL }) => {
+export const GET = (async ({ url }: { url: URL }) => {
 	const playlistURL = new URL(url).searchParams.get('url') as string;
 	const playlistId = new URL(playlistURL).searchParams.get('list');
 	if (!playlistId)
@@ -46,4 +47,4 @@ export const GET = async ({ url }: { url: URL }) => {
 	if (!formattedPlaylistInfo) return json({ error: 'playlistInfo NotFound' }, { status: 404 });
 
 	return json(formattedPlaylistInfo);
-};
+}) satisfies RequestHandler;

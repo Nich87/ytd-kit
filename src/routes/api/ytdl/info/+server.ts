@@ -1,4 +1,5 @@
 import { formatSecondsToTime, formatCount } from '$lib/formatter';
+import type { RequestHandler } from '../$types';
 import { json } from '@sveltejs/kit';
 import { Innertube } from 'youtubei.js';
 
@@ -12,7 +13,7 @@ async function getInfo(id: string) {
 	}
 }
 
-export const GET = async ({ url }: { url: URL }) => {
+export const GET = (async ({ url }: { url: URL }) => {
 	const id = new URL(url).searchParams.get('id');
 	if (!id)
 		return json(
@@ -45,4 +46,4 @@ export const GET = async ({ url }: { url: URL }) => {
 	};
 
 	return json(basicInfo);
-};
+}) satisfies RequestHandler;
