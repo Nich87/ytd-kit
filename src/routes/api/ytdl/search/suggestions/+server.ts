@@ -32,7 +32,7 @@ export const GET = (async ({ url }: { url: URL }) => {
 		return json(
 			{
 				error: 'Internal Server Error',
-				debug: error
+				debug: error.stack
 			},
 			{
 				status: 500
