@@ -31,7 +31,8 @@ export const GET = (async ({ url }: { url: URL }) => {
 		console.error(error);
 		return json(
 			{
-				error: 'Internal Server Error'
+				error: 'Internal Server Error',
+				debug: error
 			},
 			{
 				status: 500
