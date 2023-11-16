@@ -15,8 +15,8 @@ devDependencies:
     specifier: ^2.3.3
     version: 2.3.3(@sveltejs/kit@1.27.6)
   '@sveltejs/adapter-cloudflare-workers':
-    specifier: ^1.2.0
-    version: 1.2.0(@sveltejs/kit@1.27.6)
+    specifier: ^1.2.1
+    version: 1.2.1(@sveltejs/kit@1.27.6)
   '@sveltejs/adapter-netlify':
     specifier: 2.0.8
     version: 2.0.8(@sveltejs/kit@1.27.6)
@@ -716,8 +716,8 @@ packages:
       import-meta-resolve: 4.0.0
     dev: true
 
-  /@sveltejs/adapter-cloudflare-workers@1.2.0(@sveltejs/kit@1.27.6):
-    resolution: {integrity: sha512-H1QIb5cJquleWw93awBX8FYZLFDA+ZXvGtZspACwDNDty/JCSBFPFRC1FOt5mFRy6Q0lbxwGMpo/LgLXcDtW/w==}
+  /@sveltejs/adapter-cloudflare-workers@1.2.1(@sveltejs/kit@1.27.6):
+    resolution: {integrity: sha512-eUCDk156KXbA0A5fvORJA4Qkp1BUf4HToY4q5wpuqQjzMZbcM52ExucOBCSDuaN8C6Q01jEOcpeMZNNaP7LjTg==}
     peerDependencies:
       '@sveltejs/kit': ^1.0.0
     dependencies:
