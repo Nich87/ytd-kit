@@ -3,11 +3,11 @@ import adapterNetlify from '@sveltejs/adapter-netlify';
 import adapterNode from '@sveltejs/adapter-node';
 import adapterStatic from '@sveltejs/adapter-static';
 import adapterVercel from '@sveltejs/adapter-vercel';
-import preprocess from 'svelte-preprocess';
+import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
-	preprocess: preprocess(),
+	preprocess: vitePreprocess(),
 	kit: {
 		adapter: getAdapter(),
 		alias: {

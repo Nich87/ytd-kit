@@ -4,9 +4,14 @@ const config = {
 		'./node_modules/flowbite-svelte/**/*.{html,js,svelte,ts}'
 	],
 
-	plugins: [require('flowbite/plugin')],
+	 plugins: [require('daisyui')],
+	 content: ['./src/**/*.{html,svelte,js,ts}'],
 
 	darkMode: 'class',
+
+	 daisyui: {
+    themes: ["dark"],
+  },
 
 	theme: {
 		extend: {
