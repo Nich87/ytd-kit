@@ -1,24 +1,37 @@
 <script lang="ts">
-	import { Input, Button, TabItem } from 'flowbite-svelte';
-	import { LinkOutline, SearchOutline } from 'flowbite-svelte-icons';
-	export let url: string;
 	import { createEventDispatcher } from 'svelte';
+	import Icon from '@iconify/svelte'; // If using Iconify
+	export let url: string;
 	let dispatch = createEventDispatcher();
+
 	function Search() {
 		dispatch('Video', url);
 	}
 </script>
 
-<TabItem open>
-	<div slot="title" class="flex items-center gap-2"><LinkOutline size="xs" />from URL</div>
-	<div class="flex flex-col items-center">
-		<Input
+<div class="tab-item">
+	<!-- Tab title -->
+	<div class="flex items-center gap-2">
+		<Icon icon="mdi:link" class="text-xl" />
+		<!-- Using Iconify for the Link icon -->
+		from URL
+	</div>
+
+	<!-- Tab content -->
+	<div class="flex flex-col items-center p-4">
+		<!-- Input field for YouTube URL -->
+		<input
 			type="text"
-			class="my-2"
+			class="input input-bordered my-2 w-full max-w-xs"
 			bind:value={url}
 			placeholder="https://www.youtube.com/watch?v=xxxxxxx"
 			required
 		/>
-		<Button on:click={Search} class="gap-1"><SearchOutline size="sm" />Search</Button>
+		<!-- Search button -->
+		<button on:click={Search} class="btn btn-primary flex items-center gap-2">
+			<Icon icon="mdi:magnify" class="text-xl" />
+			<!-- Using Iconify for Search icon -->
+			Search
+		</button>
 	</div>
-</TabItem>
+</div>

@@ -1,37 +1,38 @@
 <script lang="ts">
-	import { Footer, FooterCopyright, FooterIcon } from 'flowbite-svelte';
-	import { DiscordSolid, TwitterSolid, GithubSolid, UserCircleSolid } from 'flowbite-svelte-icons';
+	import Icon from '@iconify/svelte';
 </script>
 
-<div class="flex justify-center w-full flex-grow">
-	<Footer class="mt-auto">
-		<div class="flex flex-col items-center justify-between">
-			<FooterCopyright
-				href="https://github.com/Nich87/ytd-kit/blob/main/LICENSE"
-				by="Nich87(ysr9029)"
-			/>
-			<div class="flex mt-4 space-x-6 justify-center py-2 sm:mt-0">
-				<FooterIcon href="https://twitter.com/const_root">
-					<TwitterSolid
-						class="w-4 h-4 text-gray-500 dark:text-gray-500 hover:text-gray-900 dark:hover:text-white"
-					/>
-				</FooterIcon>
-				<FooterIcon href="https://discord.com/users/484953715225133057">
-					<DiscordSolid
-						class="w-4 h-4 text-gray-500 dark:text-gray-500 hover:text-gray-900 dark:hover:text-white"
-					/>
-				</FooterIcon>
-				<FooterIcon href="https://github.com/Nich87">
-					<GithubSolid
-						class="w-4 h-4 text-gray-500 dark:text-gray-500 hover:text-gray-900 dark:hover:text-white"
-					/>
-				</FooterIcon>
-				<FooterIcon href="https://voidhacker.com">
-					<UserCircleSolid
-						class="w-4 h-4 text-gray-500 dark:text-gray-500 hover:text-gray-900 dark:hover:text-white"
-					/>
-				</FooterIcon>
-			</div>
+<div class="flex w-full flex-grow justify-center">
+	<footer class="footer mt-auto w-full items-center p-4 text-base-content">
+		<div class="mt-4 flex justify-center space-x-6 py-2">
+			<a
+				href="https://twitter.com/const_root"
+				target="_blank"
+				class="hover:text-gray-900 dark:hover:text-white"
+			>
+				<Icon icon="mdi:twitter" class="h-6 w-6 text-gray-500 dark:text-gray-500" />
+			</a>
+			<a
+				href="https://discord.com/users/484953715225133057"
+				target="_blank"
+				class="hover:text-gray-900 dark:hover:text-white"
+			>
+				<Icon icon="mdi:discord" class="h-6 w-6 text-gray-500 dark:text-gray-500" />
+			</a>
+			<a
+				href="https://github.com/Nich87"
+				target="_blank"
+				class="hover:text-gray-900 dark:hover:text-white"
+			>
+				<Icon icon="mdi:github" class="h-6 w-6 text-gray-500 dark:text-gray-500" />
+			</a>
+			<a
+				href="https://voidhacker.com"
+				target="_blank"
+				class="hover:text-gray-900 dark:hover:text-white"
+			>
+				<Icon icon="mdi:account-circle" class="h-6 w-6 text-gray-500 dark:text-gray-500" />
+			</a>
 		</div>
-	</Footer>
+	</footer>
 </div>

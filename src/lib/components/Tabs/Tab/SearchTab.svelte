@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { Input, Button, ButtonGroup, TabItem, Dropdown, DropdownItem } from 'flowbite-svelte';
-	import { SearchOutline } from 'flowbite-svelte-icons';
+	import { createEventDispatcher } from 'svelte';
+	import Icon from '@iconify/svelte'; // If using Iconify
 	export let url: string;
 	let suggestions: string[] = [];
 	let isDropdownOpen = false;
-	import { createEventDispatcher } from 'svelte';
 	let dispatch = createEventDispatcher();
+
 	function Search() {
 		dispatch('Query', url);
 	}
@@ -27,33 +27,49 @@
 	}
 </script>
 
-<TabItem>
-	<div slot="title" class="flex items-center gap-2"><SearchOutline size="xs" />from Search</div>
-	<div class="flex flex-col items-center">
-		<ButtonGroup class="w-full">
-			<Input
+<div class="tab-item">
+	<!-- Tab title -->
+	<div class="flex items-center gap-2">
+		<Icon icon="mdi:magnify" class="text-xl" />
+		<!-- Using Iconify for Search icon -->
+		From Search
+	</div>
+
+	<!-- Tab content -->
+	<div class="flex flex-col items-center p-4">
+		<!-- Input and Dropdown -->
+		<div class="relative w-full max-w-md">
+			<input
 				type="text"
-				class="my-2"
+				class="input input-bordered w-full"
 				bind:value={url}
 				on:input={() => searchSuggestions()}
 				on:change={() => searchSuggestions()}
 				placeholder="Relax Music"
-				list="suggestions"
 				required
 			/>
-			<Dropdown bind:open={isDropdownOpen}>
-				{#if suggestions.length}
+			{#if isDropdownOpen && suggestions.length}
+				<ul class="absolute left-0 top-full w-full rounded border bg-white shadow-lg">
 					{#each suggestions as entry}
-						<DropdownItem
-							on:click={(e) => {
-								url = e.target.innerText;
+						<li
+							class="cursor-pointer p-2 hover:bg-gray-100"
+							on:click={() => {
+								url = entry;
 								isDropdownOpen = false;
-							}}>{entry}</DropdownItem
+							}}
 						>
+							{entry}
+						</li>
 					{/each}
-				{/if}
-			</Dropdown>
-		</ButtonGroup>
-		<Button on:click={Search} class="gap-1"><SearchOutline size="sm" />Search</Button>
+				</ul>
+			{/if}
+		</div>
+
+		<!-- Search button -->
+		<button on:click={Search} class="btn btn-primary mt-2 flex items-center gap-2">
+			<Icon icon="mdi:magnify" class="text-xl" />
+			<!-- Using Iconify for Search icon -->
+			Search
+		</button>
 	</div>
-</TabItem>
+</div>
