@@ -9,7 +9,10 @@ import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 const config = {
 	preprocess: vitePreprocess(),
 	kit: {
-		adapter: getAdapter(),
+		adapter: getAdapter({
+			edge:true,
+			split:false
+		}),
 		alias: {
 			components: 'src/lib/components'
 		},
@@ -17,11 +20,11 @@ const config = {
 	}
 };
 
-function getAdapter() {
+function getAdapter(args = {}) {
 	if (Object.keys(process.env).some((key) => key.includes('VERCEL'))) {
 		return adapterVercel();
 	} else if (Object.keys(process.env).some((key) => key.includes('NETLIFY'))) {
-		return adapterNetlify();
+		return adapterNetlify(args);
 	} else if (Object.keys(process.env).some((key) => key.includes('CF_PAGES'))) {
 		return adapterCloudflare();
 	} else {
