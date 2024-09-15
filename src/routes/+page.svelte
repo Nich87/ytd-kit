@@ -17,9 +17,9 @@
 	import MainTabs from 'components/Tabs/index.svelte';
 	import Spinner from 'components/Spinner.svelte';
 	let url: string;
-	let videoInfo: VideoInfo | null;
-	let playlistInfo: PlaylistInfo | null;
-	let searchInfo: SearchInfo | null;
+	let videoInfo: VideoInfo;
+	let playlistInfo: PlaylistInfo;
+	let searchInfo: SearchInfo;
 
 	async function searchVideoInfo() {
 		const videoUrl = parseVideoUrl(url);
