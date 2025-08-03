@@ -1,7 +1,7 @@
-import { json } from '@sveltejs/kit';
-import { Innertube } from 'youtubei.js';
 import type { Playlist } from '$lib/types';
 import type { RequestHandler } from '../$types';
+import { json } from '@sveltejs/kit';
+import { Innertube } from 'youtubei.js';
 
 const yt = await Innertube.create();
 

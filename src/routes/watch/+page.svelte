@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+
 	let id: string | null = '';
 	onMount(() => {
 		document.body.classList.remove('p-4', 'space-y-8', 'container');

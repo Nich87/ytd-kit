@@ -10,8 +10,8 @@ const config = {
 	preprocess: vitePreprocess(),
 	kit: {
 		adapter: getAdapter({
-			edge:true,
-			split:false
+			edge: true,
+			split: false
 		}),
 		alias: {
 			components: 'src/lib/components'
@@ -34,7 +34,7 @@ function getAdapter(args = {}) {
 					pages: 'build',
 					assets: 'build',
 					fallback: null
-			  });
+				});
 	}
 }
 
