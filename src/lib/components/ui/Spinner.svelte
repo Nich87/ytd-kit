@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { isLoading } from '$lib/store';
+	import { isLoading } from '$lib/stores/ui';
 </script>
 
 {#if $isLoading}

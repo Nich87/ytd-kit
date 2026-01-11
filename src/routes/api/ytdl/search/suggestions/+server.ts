@@ -1,38 +1,39 @@
-import type { RequestHandler } from '../$types';
+import { youtubeService } from '$lib/services/youtube';
+import type { RequestHandler } from './$types';
 import { json } from '@sveltejs/kit';
-import { Innertube } from 'youtubei.js';
-
-const yt = await Innertube.create();
 
 export const GET = (async ({ url }: { url: URL }) => {
 	const query = new URL(url).searchParams.get('q');
 
-	if (!query) throw new Error('No query');
+	if (!query) {
+		return json(
+			{
+				error: 'No query provided'
+			},
+			{ status: 400 }
+		);
+	}
 
 	try {
-		const searchResults = await yt.getSearchSuggestions(query);
+		const suggestions = await youtubeService.getSearchSuggestions(query);
 
-		if (!searchResults)
+		if (!suggestions) {
 			return json(
 				{
-					error: 'results not found'
+					error: 'Suggestions not found'
 				},
 				{
 					status: 404
 				}
 			);
+		}
 
-		return new Response(JSON.stringify(searchResults), {
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		});
+		return json(suggestions);
 	} catch (error) {
-		console.error(error);
+		console.error('Suggestions error:', error);
 		return json(
 			{
-				error: 'Internal Server Error',
-				debug: error.stack
+				error: 'Internal Server Error'
 			},
 			{
 				status: 500

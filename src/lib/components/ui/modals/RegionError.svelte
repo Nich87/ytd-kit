@@ -1,9 +1,11 @@
 <script lang="ts">
+	import { popupRegionErrorModal, toggleRegionErrorModal } from '$lib/stores/ui';
 	import Icon from '@iconify/svelte';
-	import { popupRegionErrorModal, togglepopupRegionErrorModal } from '$lib/store';
+
+	const regionErrorModal = $derived($popupRegionErrorModal);
 </script>
 
-{#if $popupRegionErrorModal}
+{#if regionErrorModal}
 	<div class="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
 		<div class="w-full max-w-sm rounded-lg bg-white p-6 shadow-lg dark:bg-gray-800">
 			<div class="mb-4 flex justify-center">
@@ -13,7 +15,7 @@
 				この動画はあなたの地域では利用出来ません。
 			</h3>
 			<div class="flex justify-center">
-				<button class="btn btn-error" on:click={() => togglepopupRegionErrorModal()}> OK </button>
+				<button class="btn btn-error" onclick={() => toggleRegionErrorModal()}> OK </button>
 			</div>
 		</div>
 	</div>

@@ -1,50 +1,25 @@
-import type { Playlist } from '$lib/types';
-import type { RequestHandler } from '../$types';
+import { youtubeService } from '$lib/services/youtube';
+import { parsePlaylistUrl } from '$lib/utils/url-parser';
+import type { RequestHandler } from './$types';
 import { json } from '@sveltejs/kit';
-import { Innertube } from 'youtubei.js';
-
-const yt = await Innertube.create();
-
-async function getInfo(id: string) {
-	try {
-		return await yt.getPlaylist(id);
-	} catch (error) {
-		return null;
-	}
-}
 
 export const GET = (async ({ url }: { url: URL }) => {
 	const playlistURL = new URL(url).searchParams.get('url') as string;
-	const playlistId = new URL(playlistURL).searchParams.get('list');
-	if (!playlistId)
+	const playlistId = parsePlaylistUrl(playlistURL);
+
+	if (!playlistId) {
 		return json(
 			{
 				error: 'No PlaylistId'
 			},
 			{ status: 404 }
 		);
+	}
 
-	const playlistInfo = (await getInfo(playlistId)) as unknown as Playlist;
-	if (!playlistInfo) return json({ error: 'Playlist NotFound' }, { status: 404 });
+	const playlistInfo = await youtubeService.getPlaylistInfo(playlistId);
+	if (!playlistInfo) {
+		return json({ error: 'Playlist NotFound' }, { status: 404 });
+	}
 
-	const formattedPlaylistInfo = {
-		title: playlistInfo.info.title,
-		author: {
-			name: playlistInfo.info.author.name,
-			url: playlistInfo.info.author.thumbnails[0].url,
-			badges: playlistInfo.info.author.badges
-		},
-		description: playlistInfo.info.description
-			? playlistInfo.info.description
-			: 'Description NotFound.',
-		itemCount: playlistInfo.info.total_items,
-		videos: playlistInfo.videos.map((video) => ({
-			title: video.title.runs ? video.title.runs[0].text : 'No title',
-			videoId: video.id,
-			url: `https://www.youtube.com/watch?v=${video.id}`
-		}))
-	};
-	if (!formattedPlaylistInfo) return json({ error: 'playlistInfo NotFound' }, { status: 404 });
-
-	return json(formattedPlaylistInfo);
+	return json(playlistInfo);
 }) satisfies RequestHandler;

@@ -65,5 +65,11 @@
 		"vitest": "^3.2.4",
 		"youtubei.js": "^15.0.1"
 	},
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"@ffmpeg-installer/ffmpeg": "^1.1.0",
+		"@ffprobe-installer/ffprobe": "^2.1.2",
+		"ffmpeg-static": "^5.2.0",
+		"node-ffmpeg-stream": "^1.1.0"
+	}
 }

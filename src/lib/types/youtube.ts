@@ -17,24 +17,6 @@ export interface VideoInfo {
 	};
 }
 
-interface AuthorInfo {
-	name: string;
-	url: string;
-	badges: string[];
-}
-
-type Thumbnail = {
-	url: string;
-	width: number;
-	height: number;
-};
-
-type Author = {
-	id: string;
-	name: string;
-	thumbnail: Thumbnail;
-};
-
 export interface SearchInfo {
 	videoId: string;
 	title: string;
@@ -45,6 +27,35 @@ export interface SearchInfo {
 	duration: string;
 }
 
+export interface PlaylistInfo {
+	title: string | undefined;
+	author: {
+		name: string;
+		url: string;
+		badges: string[];
+	};
+	description?: string;
+	itemCount: string;
+	videos: {
+		title: string;
+		videoId: string;
+		url: string;
+	}[];
+}
+
+export interface Thumbnail {
+	url: string;
+	width: number;
+	height: number;
+}
+
+export interface Author {
+	id: string;
+	name: string;
+	thumbnail: Thumbnail;
+}
+
+// 内部利用の型定義
 export interface Playlist {
 	info: {
 		title: string | undefined;
@@ -59,22 +70,6 @@ export interface Playlist {
 	videos: {
 		title: { runs?: { text: string }[] };
 		id: string;
-		url: string;
-	}[];
-}
-
-export interface PlaylistInfo {
-	title: string | undefined;
-	author: {
-		name: string;
-		url: string;
-		badges: string[];
-	};
-	description?: string;
-	itemCount: string;
-	videos: {
-		title: { runs?: { text: string }[] };
-		videoId: string;
 		url: string;
 	}[];
 }

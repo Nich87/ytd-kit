@@ -1,11 +1,10 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
-	import Icon from '@iconify/svelte'; // If using Iconify
-	export let url: string;
-	let dispatch = createEventDispatcher();
+	import Icon from '@iconify/svelte';
+
+	let { url = $bindable(), onVideo } = $props();
 
 	function Search() {
-		dispatch('Video', url);
+		onVideo?.(url);
 	}
 </script>
 
@@ -28,7 +27,7 @@
 			required
 		/>
 		<!-- Search button -->
-		<button on:click={Search} class="btn btn-primary flex items-center gap-2">
+		<button onclick={Search} class="btn btn-primary flex items-center gap-2">
 			<Icon icon="mdi:magnify" class="text-xl" />
 			<!-- Using Iconify for Search icon -->
 			Search

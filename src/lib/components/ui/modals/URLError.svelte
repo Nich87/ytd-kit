@@ -1,9 +1,11 @@
 <script lang="ts">
+	import { popupUrlErrorModal, closeUrlErrorModal } from '$lib/stores/ui';
 	import Icon from '@iconify/svelte';
-	import { popupUrlErrorModal, togglepopupUrlErrorModal } from '$lib/store';
+
+	const urlErrorModal = $derived($popupUrlErrorModal);
 </script>
 
-{#if $popupUrlErrorModal}
+{#if urlErrorModal}
 	<div class="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
 		<div class="w-full max-w-sm rounded-lg bg-white p-6 shadow-lg dark:bg-gray-800">
 			<div class="mb-4 flex justify-center">
@@ -13,7 +15,7 @@
 				不正なURLです。修正し再度お試しください。
 			</h3>
 			<div class="flex justify-center">
-				<button class="btn btn-error" on:click={() => togglepopupUrlErrorModal()}> OK </button>
+				<button class="btn btn-error" onclick={() => closeUrlErrorModal()}> OK </button>
 			</div>
 		</div>
 	</div>

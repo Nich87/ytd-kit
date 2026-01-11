@@ -1,29 +1,29 @@
 <script lang="ts">
-	import Icon from '@iconify/svelte';
+	import MainTabs from '$lib/components/features/tabs/index.svelte';
+	import Footer from '$lib/components/ui/Footer.svelte';
+	import Header from '$lib/components/ui/Header.svelte';
+	import Spinner from '$lib/components/ui/Spinner.svelte';
+	import FetchErrorModal from '$lib/components/ui/modals/FetchError.svelte';
+	import RegionError from '$lib/components/ui/modals/RegionError.svelte';
+	import URLErrorModal from '$lib/components/ui/modals/URLError.svelte';
 	import {
 		toggleLoadingState,
-		togglepopupUrlErrorModal,
-		togglepopupFetchModal,
-		togglepopupRegionErrorModal
-	} from '$lib/store';
+		openUrlErrorModal,
+		toggleFetchErrorModal,
+		toggleRegionErrorModal
+	} from '$lib/stores/ui';
+	import type { VideoInfo, PlaylistInfo, SearchInfo } from '$lib/types/youtube';
+	import { parseVideoUrl } from '$lib/utils/url-parser';
+	import Icon from '@iconify/svelte';
 
-	import { parseVideoUrl } from '$lib/parseURL';
-	import type { VideoInfo, PlaylistInfo, SearchInfo } from '$lib/types/index';
-	import Header from 'components/Header.svelte';
-	import Footer from 'components/Footer.svelte';
-	import RegionError from 'components/Modals/RegionError.svelte';
-	import URLErrorModal from 'components/Modals/URLError.svelte';
-	import FetchErrorModal from 'components/Modals/FetchError.svelte';
-	import MainTabs from 'components/Tabs/index.svelte';
-	import Spinner from 'components/Spinner.svelte';
 	let url: string;
 	let videoInfo: VideoInfo;
 	let playlistInfo: PlaylistInfo;
-	let searchInfo: SearchInfo;
+	let searchInfo: SearchInfo[];
 
 	async function searchVideoInfo() {
 		const videoUrl = parseVideoUrl(url);
-		if (!videoUrl) return togglepopupUrlErrorModal();
+		if (!videoUrl) return openUrlErrorModal();
 
 		const response = await fetch(`/api/ytdl/info?id=${videoUrl}`, {
 			method: 'GET',
@@ -32,7 +32,7 @@
 		toggleLoadingState();
 		if (response.status !== 200) {
 			toggleLoadingState();
-			togglepopupFetchModal();
+			toggleFetchErrorModal();
 			return console.error(response.status, response);
 		}
 		videoInfo = await response.json();
@@ -41,7 +41,7 @@
 
 	async function searchPlaylistInfo() {
 		const playlistUrl = url;
-		if (!playlistUrl) return togglepopupUrlErrorModal();
+		if (!playlistUrl) return openUrlErrorModal();
 
 		const response = await fetch(`/api/ytdl/playlist?url=${playlistUrl}`, {
 			method: 'GET',
@@ -50,7 +50,7 @@
 		toggleLoadingState();
 		if (response.status !== 200) {
 			toggleLoadingState();
-			togglepopupFetchModal();
+			toggleFetchErrorModal();
 			return console.error(response.status, response);
 		}
 		playlistInfo = await response.json();
@@ -59,7 +59,7 @@
 
 	async function searchQueryInfo() {
 		const query = url;
-		if (!query) return togglepopupUrlErrorModal();
+		if (!query) return openUrlErrorModal();
 
 		const response = await fetch(`/api/ytdl/search?q=${query}`, {
 			method: 'GET',
@@ -68,7 +68,7 @@
 		toggleLoadingState();
 		if (response.status !== 200) {
 			toggleLoadingState();
-			togglepopupFetchModal();
+			toggleFetchErrorModal();
 			return console.error(response.status, response);
 		}
 		searchInfo = await response.json();
@@ -86,8 +86,8 @@
 		if (response.status !== 200) {
 			let json = await response.json();
 			json.errorobj.info.error_type === 'UNPLAYABLE'
-				? togglepopupRegionErrorModal()
-				: togglepopupFetchModal();
+				? toggleRegionErrorModal()
+				: toggleFetchErrorModal();
 			toggleLoadingState();
 			return console.error(response.status, response);
 		}
@@ -127,10 +127,10 @@
 {#if videoInfo}
 	<div class="mx-auto mt-8 max-w-3xl">
 		<div class="flex justify-center space-x-4">
-			<button class="btn btn-primary" on:click={() => downloadVideo(videoInfo.videoId, 'video')}>
+			<button class="btn btn-primary" onclick={() => downloadVideo(videoInfo.videoId, 'video')}>
 				<Icon icon="mdi:video" class="m-1" /> Download Video
 			</button>
-			<button class="btn btn-secondary" on:click={() => downloadVideo(videoInfo.videoId, 'audio')}>
+			<button class="btn btn-secondary" onclick={() => downloadVideo(videoInfo.videoId, 'audio')}>
 				<Icon icon="mdi:file-music" class="m-1" /> Download Audio
 			</button>
 		</div>
@@ -142,7 +142,7 @@
 			src={videoInfo.iframe.iframeUrl}
 			width="100%"
 			height={videoInfo.iframe.iframeHeight}
-		/>
+		></iframe>
 		<p class="text-2xl font-semibold">{videoInfo.title}</p>
 		<p class="text-xl font-semibold">Category: {videoInfo.category}</p>
 		<p class="text-xl font-semibold">👀 {videoInfo.counts.viewCount}</p>
@@ -191,12 +191,12 @@
 							<Icon
 								icon="mdi:video"
 								class="m-1"
-								on:click={() => downloadVideo(video.videoId, 'video')}
+								onclick={() => downloadVideo(video.videoId, 'video')}
 							/>
 							<Icon
 								icon="mdi:file-music"
 								class="m-1"
-								on:click={() => downloadVideo(video.videoId, 'audio')}
+								onclick={() => downloadVideo(video.videoId, 'audio')}
 							/>
 						</div>
 					</li>
@@ -225,13 +225,13 @@
 					<div class="mt-2 flex space-x-2">
 						<button
 							class="btn btn-primary px-2 py-1 text-sm"
-							on:click={() => downloadVideo(entry.videoId, 'video')}
+							onclick={() => downloadVideo(entry.videoId, 'video')}
 						>
 							<Icon icon="mdi:video" class="mr-1" /> Download Video
 						</button>
 						<button
 							class="btn btn-secondary px-2 py-1 text-sm"
-							on:click={() => downloadVideo(entry.videoId, 'audio')}
+							onclick={() => downloadVideo(entry.videoId, 'audio')}
 						>
 							<Icon icon="mdi:file-music" class="mr-1" /> Download Audio
 						</button>
